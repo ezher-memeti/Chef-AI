@@ -1,0 +1,34 @@
+# Node / React
+client/node_modules/
+client/build/
+client/.env
+client/.next/
+client/.turbo/
+client/dist/
+
+# macOS
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VS Code
+.vscode/
+
+# ASP.NET Core / C#
+server/bin/
+server/obj/
+server/*.user
+server/.vs/
+server/.idea/
+server/.vscode/
+server/*.suo
+server/*.userosscache
+server/*.sln.docstates
+
+# Secrets (if any)
+*.env
+.env.*
+
