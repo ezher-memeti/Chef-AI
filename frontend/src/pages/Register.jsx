@@ -4,17 +4,33 @@ import { useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 
 const RegisterPage = () => {
+    const securityQuestions = [
+        'What was your childhood nickname?',
+        'In what city did you meet your spouse?',
+        'What is the name of your favorite childhood friend?',
+        'What street did you live on in third grade?',
+        'What is your oldest sibling’s birthday month and year?'
+    ];
+
     const navigate = useNavigate();
 
-    const handleRegister = ({ email, password, username }) => {
-        console.log('Register data:', { email, password, username });
+    const handleRegister = ({ formData }) => {
+        console.log('Register form data:', formData);
 
-        // Fake registration logic
-        const fakeUserName = username;
-        localStorage.setItem('userName', fakeUserName);
+        // Example: send this data to your backend
+        /*
+        {
+          email: formData.email,
+          username: formData.username,
+          password: formData.password,
+          securityQuestion: formData.securityQuestion,
+          securityAnswer: formData.securityAnswer
+        }
+        */
 
-        // Redirect to homepage after registration
+        // Redirect after successful register
         navigate('/');
+
     };
 
     return (
@@ -36,8 +52,10 @@ const RegisterPage = () => {
                 <AuthForm
                     onSubmit={handleRegister}
                     isLogin={false}
+                    type="register"
                     heading="Create Account"
                     subheading="Join the platform and get started"
+                    securityQuestions={securityQuestions}
                 />
             </div>
         </div>
