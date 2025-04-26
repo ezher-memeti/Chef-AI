@@ -1,0 +1,33 @@
+/* src/styles/Layout.css */
+body {
+    background-color: #DCD7C9;
+}
+
+.layout-wrapper {
+    position: relative;
+    min-height: 60vh;
+    width: 100%;
+    background:
+        url('../assets/background-1-login.png') no-repeat center center;
+    background-size: cover;
+}
+
+.page-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+}
+
+/* Optional: Add some overlay effect */
+.background-overlay {
+    background:
+        url('../assets/background-2-login.png') no-repeat center center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 30vh;
+    width: 100%;
+    /* Soft white transparent overlay */
+    z-index: 1;
+}
