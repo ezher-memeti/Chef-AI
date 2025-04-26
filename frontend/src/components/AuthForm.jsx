@@ -160,30 +160,44 @@ const AuthForm = ({
                     <button
                         type="submit"
                         disabled={!isFormValid}
-                        className={`w-full py-3 ${isFormValid
-                            ? 'bg-my-button-gradient hover:text-white hover:scale-[1.02]'
-                            : 'bg-my-button-gradient cursor-not-allowed'
-                            } transition-all duration-300 ease-in rounded-md text-black font-medium mt-4`}
+                        className={`w-full py-3 bg-my-button-gradient transition-all duration-300 ease-in rounded-md text-black font-medium mt-4 ${isFormValid ? 'hover:text-white hover:scale-[1.02]' : 'cursor-not-allowed'
+                            }`}
                     >
-                        {isLogin ? 'Log-in' : 'Register'}
+                        {isLogin ? 'Log-in' : type === 'forgotPassword' ? 'Reset Password' : 'Register'}
                     </button>
+                    {/* Extra options below button */}
+                    <div className="text-center mt-4 text-myTextPrimary text-sm">
+                        {isLogin && (
+                            <>
+                                <a href="/forgot-password" className="hover:underline block mb-2">
+                                    Forgot Password?
+                                </a>
+                                <span>
+                                    Don't have an account?{' '}
+                                    <a href="/register" className="text-myLink hover:underline font-bold ml-1">
+                                        Register here
+                                    </a>
+                                </span>
+                            </>
+                        )}
 
-                    {isLogin && (
-                        <div className="text-center mt-4">
-                            <a href="/forgot-password" className="text-myTextPrimary hover:underline text-sm">
-                                Forgot Password?
-                            </a>
-                        </div>
-                    )}
+                        {!isLogin && type !== 'forgotPassword' && (
+                            <span>
+                                Already have an account?{' '}
+                                <a href="/login" className="text-myLink hover:underline font-bold ml-1">
+                                    Log-in here
+                                </a>
+                            </span>
+                        )}
 
-                    <div className="text-center mt-6 text-myTextPrimary text-sm">
-                        {isLogin ? "Don't have an account?" : "Already have an account?"}
-                        <a
-                            href={isLogin ? '/register' : '/login'}
-                            className="ml-1 text-myLink hover:underline font-bold"
-                        >
-                            {isLogin ? 'Register here' : 'Log-in here'}
-                        </a>
+                        {type === 'forgotPassword' && (
+                            <span>
+                                Remember your password?{' '}
+                                <a href="/login" className="text-myLink hover:underline font-bold ml-1">
+                                    Log-in here
+                                </a>
+                            </span>
+                        )}
                     </div>
                 </form>
             </div>
