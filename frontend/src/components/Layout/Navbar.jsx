@@ -34,10 +34,19 @@ const Navbar = () => {
     }, []);
 
     useEffect(() => {
-        const storedUserName = localStorage.getItem('userName');
-        if (storedUserName) {
-            setUserName(storedUserName);
-        }
+        const handleStorageChange = () => {
+            const storedUserName = localStorage.getItem('userName');
+            setUserName(storedUserName || '');
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        // Load initially
+        handleStorageChange();
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     const handleAuthAction = () => {
@@ -85,7 +94,7 @@ const Navbar = () => {
                 <NavLink href="#faq">FAQ</NavLink>
                 <div className="flex items-center gap-4">
                     {userName && (
-                        <span className="text-white font-medium">
+                        <span className="text-white font-medium animate-fade-in">
                             Welcome, {userName}
                         </span>
                     )}

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/Login';
 import Layout from './components/Layout/Layout.jsx';
 import RegisterPage from './pages/Register';
+import ForgotPassword from './pages/Forgot-password';
 
 
 const App = () => {
@@ -24,6 +25,11 @@ const App = () => {
         <Route path="/register" element={
           <Layout>
             <RegisterPage />
+          </Layout>
+        } />
+        <Route path="/forgot-password" element={
+          <Layout>
+            <ForgotPassword />
           </Layout>
         } />
         {/* Add other routes as needed */}
