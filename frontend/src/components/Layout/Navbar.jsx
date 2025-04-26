@@ -51,7 +51,6 @@ const Navbar = () => {
         }
     };
 
-
     // Link component with active state handling
     const NavLink = ({ href, children }) => {
         const sectionId = href.replace('#', '');

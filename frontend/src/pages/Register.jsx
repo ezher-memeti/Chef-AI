@@ -1,47 +1,47 @@
-// src/pages/LoginPage.jsx
+// src/pages/RegisterPage.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const navigate = useNavigate();
 
-    const handleLogin = ({ email, password }) => {
-        console.log('Login data:', { email, password });
+    const handleRegister = ({ email, password, username }) => {
+        console.log('Register data:', { email, password, username });
 
-        // Fake login logic
-        const fakeUserName = 'John Doe';
+        // Fake registration logic
+        const fakeUserName = username;
         localStorage.setItem('userName', fakeUserName);
 
-        // Redirect to homepage
+        // Redirect to homepage after registration
         navigate('/');
     };
 
     return (
-        <div className="w-full py-[100px] flex justify-center items-center">
+        <div className="w-full py-[50px] flex justify-center items-center">
             <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row">
                 {/* Left side with welcome message */}
                 <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:pl-16 text-white text-center md:text-left py-8 md:py-0">
                     <h1 className="text-5xl font-bold bg-my-text-gradient bg-clip-text text-transparent md:text-6xl mb-4 leading-tight">
-                        Welcome<br />Back!
+                        Join the<br />Creative
+                        Revolution
                     </h1>
 
                     <p className="text-xl text-myTextPrimary opacity-90">
-                        Ready to create your next<br />
-                        AI-powered recipe?
+                        Get Started with AI Recipe Creation!
                     </p>
                 </div>
 
-                {/* Right side with login form */}
+                {/* Right side with register form */}
                 <AuthForm
-                    onSubmit={handleLogin}
-                    isLogin={true}
-                    heading="Log In"
-                    subheading="Access your account and manage your tasks"
+                    onSubmit={handleRegister}
+                    isLogin={false}
+                    heading="Create Account"
+                    subheading="Join the platform and get started"
                 />
             </div>
         </div>
     );
 };
 
-export default LoginPage;
+export default RegisterPage;
