@@ -12,8 +12,29 @@ const SearchRecipePage = () => {
     const [selectedAlergicIngredients, setSelectedAlergicIngredients] = useState([]);
     const [selectedDietaryPreferences, setSelectedDietaryPreferences] = useState([]);
     const [ingredientsInput, setIngredientsInput] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [errorPlace, setErrorPlace] = useState("");
 
     const handleSubmit = async () => {
+        const trimmedInput = ingredientsInput.trim();
+
+        if (!trimmedInput) {
+            setErrorMessage("Please enter some ingredients.");
+            setErrorPlace("ingredients");
+            return;
+        }
+        if (!selectedCuisine) {
+            setErrorMessage("Please select a cuisine");
+            setErrorPlace("cuisine");
+            return;
+        }
+        if (!selectedFoodType) {
+            setErrorMessage("Please select a Food Type");
+            setErrorPlace("foodType");
+            return;
+        }
+        setErrorPlace("");
+        setErrorMessage("");
         const requestData = {
             cuisine: selectedCuisine,
             foodType: selectedFoodType,
@@ -41,18 +62,19 @@ const SearchRecipePage = () => {
         }
     };
 
+
     return (
         <div className="flex-col justify-around items-center">
             <h1 className="text-5xl text-center font-bold bg-my-text-gradient bg-clip-text text-transparent md:text-6xl mb-12 leading-tight">
                 Flavor Meets<br />Intelligence
             </h1>
-            <div className="bg-white/30 backdrop-blur-md p-8 rounded-3xl w-full w-[100vw] max-w-4xl md:w-[900px] flex flex-col items-center gap-6">
+            <div className="bg-white bg-opacity-20 backdrop-blur-md p-8 rounded-2xl w-full w-[100vw] max-w-4xl md:w-[900px] flex flex-col items-center gap-6">
                 <p className="text-sm text-center text-gray-700 font-medium">
                     Got ingredients? Select your cuisine and let Chef AI cook up ideas!
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
-                    <DropdownSelect label="Cuisine" options={Cuisines} selected={selectedCuisine} setSelected={setSelectedCuisine} />
-                    <DropdownSelect label="Food type" options={FoodTypes} selected={selectedFoodType} setSelected={setSelectedFoodType} />
+                    <DropdownSelect label="Cuisine" options={Cuisines} selected={selectedCuisine} setSelected={setSelectedCuisine} errorPlace={errorPlace} />
+                    <DropdownSelect label="Food type" options={FoodTypes} selected={selectedFoodType} setSelected={setSelectedFoodType} errorPlace={errorPlace} />
                     <DropdownSelect label="Alergic ingredients" options={AlergicIngredients} multiSelect={true} selected={selectedAlergicIngredients} setSelected={setSelectedAlergicIngredients} />
                     <DropdownSelect label="Dietary Preference" options={dietaryPreferences} multiSelect={true} selected={selectedDietaryPreferences} setSelected={setSelectedDietaryPreferences} />
                 </div>
@@ -64,12 +86,16 @@ const SearchRecipePage = () => {
                         value={ingredientsInput}
                         onChange={(e) => setIngredientsInput(e.target.value)}
                         placeholder="e.g. tomatoes, garlic, pasta"
-                        className="p-4 rounded-lg bg-my-button-color bg-opacity-20 placeholder-gray-500 text-gray-700 focus:outline-none"
+                        className={`p-4 rounded-lg bg-my-button-color bg-opacity-20 placeholder-gray-500 text-gray-700 focus:outline-none ${(errorPlace === 'ingredients') ? "border border-red-500" : ""
+                            }`}
                     />
+                    {errorMessage && (
+                        <p className="mt-4 text-sm text-red-500">{errorMessage}</p>
+                    )}
                 </div>
 
                 <button
-                    className="w-full p-4 mt-4 bg-my-button-gradient rounded-lg font-semibold hover:opacity-80 hover:text-white transition"
+                    className="w-full p-4 mt-2 bg-my-button-gradient rounded-lg font-semibold hover:opacity-80 hover:text-white transition"
                     onClick={handleSubmit}
                 >
                     Generate Recipe
