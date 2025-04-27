@@ -6,8 +6,8 @@ import AuthForm from '../components/AuthForm';
 const LoginPage = () => {
     const navigate = useNavigate();
 
-    const handleLogin = ({ email, password }) => {
-        console.log('Login data:', { email, password });
+    const handleLogin = (formData) => {
+        console.log('Login data:', formData);
 
         // Fake login logic
         const fakeUserName = 'John Doe';
