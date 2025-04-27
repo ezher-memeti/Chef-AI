@@ -6,6 +6,7 @@ import LoginPage from './pages/Login';
 import Layout from './components/Layout/Layout.jsx';
 import RegisterPage from './pages/Register';
 import ForgotPassword from './pages/Forgot-password';
+import SearchRecipePage from './pages/Search-recipe';
 
 
 const App = () => {
@@ -14,7 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={
           <Layout>
-
+            <SearchRecipePage />
           </Layout>
         } />
         <Route path="/login" element={
@@ -30,6 +31,11 @@ const App = () => {
         <Route path="/forgot-password" element={
           <Layout>
             <ForgotPassword />
+          </Layout>
+        } />
+        <Route path="/" element={
+          <Layout>
+            <SearchRecipePage />
           </Layout>
         } />
         {/* Add other routes as needed */}
