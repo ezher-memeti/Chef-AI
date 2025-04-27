@@ -15,6 +15,18 @@ const SearchRecipePage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [errorPlace, setErrorPlace] = useState("");
 
+    const findInvalidIngredient = (input) => {
+        const words = input.split(",").map(word => word.trim());
+
+        for (const word of words) {
+            if (!/^[a-zA-Z\s]+$/.test(word) || word.length < 2 || word.length > 30) {
+                return word; // return the invalid word
+            }
+        }
+
+        return null; // no problems
+    };
+
     const handleSubmit = async () => {
         const trimmedInput = ingredientsInput.trim();
 
@@ -23,6 +35,14 @@ const SearchRecipePage = () => {
             setErrorPlace("ingredients");
             return;
         }
+
+        const invalidIngredient = findInvalidIngredient(trimmedInput);
+        if (invalidIngredient) {
+            setErrorMessage(`Invalid ingredient: "${invalidIngredient}". Only letters are allowed, 2-30 characters.`);
+            setErrorPlace("ingredients");
+            return;
+        }
+
         if (!selectedCuisine) {
             setErrorMessage("Please select a cuisine");
             setErrorPlace("cuisine");
@@ -35,12 +55,13 @@ const SearchRecipePage = () => {
         }
         setErrorPlace("");
         setErrorMessage("");
+        let ingredientsList = ingredientsInput.split(",").map(ingredientsList => ingredientsList.trim());
         const requestData = {
             cuisine: selectedCuisine,
             foodType: selectedFoodType,
             alergicIngredients: selectedAlergicIngredients,
             dietaryPreferences: selectedDietaryPreferences,
-            ingredients: ingredientsInput
+            ingredients: ingredientsList
         };
 
         console.log(requestData); // <- see what you will send
