@@ -51,7 +51,7 @@ const DropdownSelect = ({ label, options = [], multiSelect = false, selected, se
 
             {
                 isOpen && (
-                    <div className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg max-h-60 overflow-auto">
+                    <div className="absolute z-10 mt-2 w-full bg-[#DCD7C9DD] rounded-lg shadow-lg max-h-60 overflow-auto">
                         {options.map((option, index) => (
                             <div
                                 key={index}
