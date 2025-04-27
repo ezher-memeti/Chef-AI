@@ -14,7 +14,7 @@ const RegisterPage = () => {
 
     const navigate = useNavigate();
 
-    const handleRegister = ({ formData }) => {
+    const handleRegister = (formData) => {
         console.log('Register form data:', formData);
 
         // Example: send this data to your backend
@@ -50,12 +50,12 @@ const RegisterPage = () => {
 
                 {/* Right side with register form */}
                 <AuthForm
-                    onSubmit={handleRegister}
                     isLogin={false}
                     type="register"
                     heading="Create Account"
                     subheading="Join the platform and get started"
                     securityQuestions={securityQuestions}
+                    onSubmit={handleRegister}
                 />
             </div>
         </div>
