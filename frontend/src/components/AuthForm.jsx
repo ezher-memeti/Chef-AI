@@ -59,7 +59,7 @@ const AuthForm = ({
 
     return (
         <div className="w-full md:w-1/2 flex justify-center items-center py-8 md:py-0">
-            <div className="bg-white bg-opacity-20 backdrop-blur-md rounded-xl p-6 md:p-8 w-full max-w-md md:max-w-lg shadow-lg border border-white border-opacity-20">
+            <div className="bg-white bg-opacity-20 backdrop-blur-md rounded-xl p-6 md:p-8 w-full max-w-md md:max-w-lg shadow-lg border">
                 <h2 className="text-center text-3xl font-bold text-white mb-2">{heading}</h2>
                 {subheading && (
                     <p className="text-center text-white mb-6 text-sm">{subheading}</p>
