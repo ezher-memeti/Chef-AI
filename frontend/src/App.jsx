@@ -7,6 +7,7 @@ import Layout from './components/Layout/Layout.jsx';
 import RegisterPage from './pages/Register';
 import ForgotPassword from './pages/Forgot-password';
 import SearchRecipePage from './pages/Search-recipe';
+import Result from './pages/Result-page';
 
 
 const App = () => {
@@ -31,6 +32,11 @@ const App = () => {
         <Route path="/forgot-password" element={
           <Layout>
             <ForgotPassword />
+          </Layout>
+        } />
+        <Route path="/ResultPage" element={
+          <Layout>
+            <Result />
           </Layout>
         } />
         <Route path="/" element={
