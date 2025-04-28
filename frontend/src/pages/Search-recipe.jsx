@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DropdownSelect from "../components/dropdownSelect";
+import { useNavigate } from 'react-router-dom';
 
 const dietaryPreferences = ["Vegetarian", "Vegan", "Gluten-free", "High-Protein", "Low-Carb", "Diabetic-Friendly", "Lactose-Free"];
 const AlergicIngredients = ["Dairy", "Nuts&Seeds", "Grains & Gluten", "Seafood & Shellfish", "Eggs", "Legumes & Pulses", "Additives & Preservatives"];
@@ -15,6 +16,8 @@ const SearchRecipePage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [errorPlace, setErrorPlace] = useState("");
 
+    const navigate = useNavigate();
+
     const findInvalidIngredient = (input) => {
         const words = input.split(",").map(word => word.trim());
 
@@ -28,6 +31,7 @@ const SearchRecipePage = () => {
     };
 
     const handleSubmit = async () => {
+
         const trimmedInput = ingredientsInput.trim();
 
         if (!trimmedInput) {
@@ -81,6 +85,8 @@ const SearchRecipePage = () => {
         } catch (error) {
             console.error("Error sending data:", error);
         }
+
+        navigate('/ResultPage', { state: { requestData } });
     };
 
 
