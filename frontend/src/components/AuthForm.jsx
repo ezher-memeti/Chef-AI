@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 
 const AuthForm = ({
     onSubmit,
-    type,
-    isLogin = true,
+    type, // 'login' | 'register' | 'forgotPassword' | 'changePassword'
+    isLogin = type === 'login',
     heading,
     subheading,
     securityQuestions = [],
-    securityQuestionFromBackend
+    securityQuestionFromBackend = ''
 }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,12 +22,21 @@ const AuthForm = ({
         e.preventDefault();
 
         let formData;
-        if (isLogin) {
-            formData = { email, password };
-        } else if (type === "forgotPassword") {
-            formData = { email, password, securityAnswer };
-        } else if (type === "register") {
-            formData = { email, username, password, securityQuestion, securityAnswer };
+        switch (type) {
+            case 'login':
+                formData = { email, password };
+                break;
+            case 'register':
+                formData = { email, username, password, securityQuestion, securityAnswer };
+                break;
+            case 'forgotPassword':
+                formData = { email, password, reEnterPassword, securityAnswer };
+                break;
+            case 'changePassword':
+                formData = { password, reEnterPassword };
+                break;
+            default:
+                break;
         }
 
 
@@ -44,18 +53,26 @@ const AuthForm = ({
         return regex.test(email);
     };
 
-    const isFormValid = isLogin
-        ? email && password && isEmailValid(email)
-        : (username &&
-            email &&
-            password &&
-            reEnterPassword &&
-            password === reEnterPassword &&
-            securityQuestion &&
-            securityAnswer &&
-            isEmailValid(email))
-        ||
-        (email && isEmailValid(email) && password && reEnterPassword && password === reEnterPassword && securityAnswer && type === 'forgotPassword');
+    const isFormValid = (() => {
+        switch (type) {
+            case 'login':
+                return email && password && isEmailValid(email);
+            case 'register':
+                return username && email && isEmailValid(email)
+                    && password && reEnterPassword
+                    && password === reEnterPassword
+                    && securityQuestion && securityAnswer;
+            case 'forgotPassword':
+                return email && isEmailValid(email)
+                    && password && reEnterPassword
+                    && password === reEnterPassword
+                    && securityAnswer;
+            case 'changePassword':
+                return password && reEnterPassword && password === reEnterPassword;
+            default:
+                return false;
+        }
+    })();
 
     return (
         <div className="w-full md:w-1/2 flex justify-center items-center py-8 md:py-0">
@@ -66,8 +83,8 @@ const AuthForm = ({
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    {/* Username field for register*/}
-                    {(type === "register") && (
+                    {/* Username only for register */}
+                    {type === "register" && (
                         <div className="mb-6">
                             <label htmlFor="username" className="block text-white mb-2">Username</label>
                             <input
@@ -81,8 +98,9 @@ const AuthForm = ({
                             />
                         </div>
                     )}
-                    {/* Email for all */}
-                    {(
+
+                    {/* Email for all except changePassword */}
+                    {type !== 'changePassword' && (
                         <div className="mb-6">
                             <label htmlFor="email" className="block text-white mb-2">Email</label>
                             <input
@@ -99,8 +117,8 @@ const AuthForm = ({
                             )}
                         </div>
                     )}
-                    {/* Password for all pages */}
 
+                    {/* Password field */}
                     <div className="mb-6">
                         <label htmlFor="password" className="block text-white mb-2">Password</label>
                         <div className="relative">
@@ -123,65 +141,63 @@ const AuthForm = ({
                         </div>
                     </div>
 
-                    {/*Re enter password for register and reset password  */}
-                    {!isLogin && (
-                        <>
-                            <div className="mb-6">
-                                <label htmlFor="reenter-password" className="block text-white mb-2">Re-enter Password</label>
-                                <input
-                                    id="reenter-password"
-                                    type="password"
-                                    placeholder="Re-enter your Password"
-                                    value={reEnterPassword}
-                                    onChange={(e) => setReEnterPassword(e.target.value)}
-                                    required
-                                    className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
-                                />
-                                {password && reEnterPassword && password !== reEnterPassword && (
-                                    <p className="text-red-500 text-sm mt-1">Passwords do not match.</p>
+                    {/* Re-enter password */}
+                    {(type !== 'login') && (
+                        <div className="mb-6">
+                            <label htmlFor="reenter-password" className="block text-white mb-2">Re-enter Password</label>
+                            <input
+                                id="reenter-password"
+                                type="password"
+                                placeholder="Re-enter your Password"
+                                value={reEnterPassword}
+                                onChange={(e) => setReEnterPassword(e.target.value)}
+                                required
+                                className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
+                            />
+                            {password && reEnterPassword && password !== reEnterPassword && (
+                                <p className="text-red-500 text-sm mt-1">Passwords do not match.</p>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Security Question + Answer for register and forgotPassword */}
+                    {(type === 'register' || type === 'forgotPassword') && (
+                        <div className="mb-6 flex flex-col md:flex-row gap-4">
+                            <div className="w-full md:w-1/2">
+                                <label htmlFor="security-question" className="block text-white mb-2">Security Question</label>
+                                {type === 'register' ? (
+                                    <select
+                                        id="security-question"
+                                        value={securityQuestion}
+                                        onChange={(e) => setSecurityQuestion(e.target.value)}
+                                        required
+                                        className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
+                                    >
+                                        <option value="" disabled>Select a question</option>
+                                        {securityQuestions.map((question, index) => (
+                                            <option key={index} value={question}>{question}</option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    <div className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition">
+                                        {securityQuestionFromBackend || "Security question"}
+                                    </div>
                                 )}
                             </div>
 
-                            <div className="mb-6 flex flex-col md:flex-row gap-4">
-                                <div className="w-full md:w-1/2">
-                                    <label htmlFor="security-question" className="block text-white mb-2">Security Question</label>
-                                    {/* Dropdown of security questions for register */}
-                                    {(type === "register") && (
-                                        <select
-                                            id="security-question"
-                                            value={securityQuestion}
-                                            onChange={(e) => setSecurityQuestion(e.target.value)}
-                                            required
-                                            className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
-                                        >
-                                            <option value="" disabled>Select a question</option>
-                                            {securityQuestions.map((question, index) => (
-                                                <option key={index} value={question}>
-                                                    {question}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    )}
-                                    {/* Predefined security question for forgot password */}
-                                    {(type === "forgotPassword") && (
-                                        <div className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition">a{securityQuestionFromBackend}</div>
-                                    )}
-                                </div>
-
-                                <div className="w-full md:w-1/2">
-                                    <label htmlFor="security-answer" className="block text-white mb-2">Answer</label>
-                                    <input
-                                        id="security-answer"
-                                        type="text"
-                                        placeholder="Your Answer"
-                                        value={securityAnswer}
-                                        onChange={(e) => setSecurityAnswer(e.target.value)}
-                                        required
-                                        className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
-                                    />
-                                </div>
+                            <div className="w-full md:w-1/2">
+                                <label htmlFor="security-answer" className="block text-white mb-2">Answer</label>
+                                <input
+                                    id="security-answer"
+                                    type="text"
+                                    placeholder="Your Answer"
+                                    value={securityAnswer}
+                                    onChange={(e) => setSecurityAnswer(e.target.value)}
+                                    required
+                                    className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
+                                />
                             </div>
-                        </>
+                        </div>
                     )}
 
                     <button
@@ -190,41 +206,29 @@ const AuthForm = ({
                         className={`w-full py-3 bg-my-button-gradient transition-all duration-300 ease-in rounded-md text-black font-medium mt-4 ${isFormValid ? 'hover:text-white hover:scale-[1.02]' : 'cursor-not-allowed'
                             }`}
                     >
-                        {isLogin ? 'Log-in' : type === 'forgotPassword' ? 'Reset Password' : 'Register'}
+                        {{
+                            login: 'Log-in',
+                            register: 'Register',
+                            forgotPassword: 'Reset Password',
+                            changePassword: 'Change Password'
+                        }[type]}
                     </button>
 
-                    {/* Extra options below button */}
+                    {/* Navigation Links */}
                     <div className="text-center mt-4 text-myTextPrimary text-sm">
-                        {isLogin && (
+                        {type === 'login' && (
                             <>
                                 <a href="/forgot-password" className="hover:underline block mb-2">
                                     Forgot Password?
                                 </a>
-                                <span>
-                                    Don't have an account?{' '}
-                                    <a href="/register" className="text-myLink hover:underline font-bold ml-1">
-                                        Register here
-                                    </a>
-                                </span>
+                                <span>Don't have an account? <a href="/register" className="text-myLink hover:underline font-bold ml-1">Register here</a></span>
                             </>
                         )}
-
-                        {!isLogin && type === 'register' && (
-                            <span>
-                                Already have an account?{' '}
-                                <a href="/login" className="text-myLink hover:underline font-bold ml-1">
-                                    Log-in here
-                                </a>
-                            </span>
+                        {type === 'register' && (
+                            <span>Already have an account? <a href="/login" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
                         )}
-
                         {type === 'forgotPassword' && (
-                            <span>
-                                Remember your password?{' '}
-                                <a href="/login" className="text-myLink hover:underline font-bold ml-1">
-                                    Log-in here
-                                </a>
-                            </span>
+                            <span>Remember your password? <a href="/login" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
                         )}
                     </div>
                 </form>
@@ -232,5 +236,4 @@ const AuthForm = ({
         </div>
     );
 };
-
 export default AuthForm;
