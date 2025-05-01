@@ -5,6 +5,9 @@ import { useLocation } from 'react-router-dom';
 import SelectedSearchInfo from "../components/SelectedSearchInfo";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { ShareIcon } from "@heroicons/react/20/solid";
+import { BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/24/outline";
+import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid";
+
 
 const Result = () => {
     const navigate = useNavigate();
@@ -13,8 +16,12 @@ const Result = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
     const location = useLocation();
     const selectedSearchInfo = location.state?.requestData;
+
+    const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
+
 
 
     useEffect(() => {
@@ -107,6 +114,43 @@ const Result = () => {
         );
     }
 
+    const handleBookmark = async (recipe) => {
+        // Toggle in frontend
+        setBookmarkedRecipes((prev) => {
+            if (prev.find((r) => r.id === recipe.id)) {
+                return prev.filter((r) => r.id !== recipe.id);
+            } else {
+                return [...prev, recipe];
+            }
+        });
+
+        // Prepare for backend (optional - uncomment when backend is ready)
+        /*
+        try {
+            const response = await fetch("/api/bookmarks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(recipe), // send full recipe
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to bookmark recipe.");
+            }
+        } catch (error) {
+            console.error("Bookmark error:", error);
+            alert("Could not bookmark recipe.");
+        }
+        */
+    };
+
+
+    const isBookmarked = (recipe) => {
+        return bookmarkedRecipes.some((r) => r.id === recipe.id);
+    };
+
+
     return (
         <div className="flex-col mt-4 justify-center align-center">
 
@@ -159,6 +203,17 @@ const Result = () => {
                     >
                         <ShareIcon className="w-6 h-6" />
                     </button>
+                    <button
+                        onClick={() => handleBookmark(selectedRecipe)}
+                        className="absolute top-4 right-16 z-10 text-myTextPrimary px-4 py-2 rounded hover:text-black"
+                    >
+                        {isBookmarked(selectedRecipe) ? (
+                            <SolidBookmarkIcon className="w-6 h-6" />
+                        ) : (
+                            <OutlineBookmarkIcon className="w-6 h-6" />
+                        )}
+                    </button>
+
 
                     {/* Instructions (top half) */}
                     <div className="flex-1 overflow-y-auto border items-center justify-center text-center bg-white/20 rounded-xl p-6">

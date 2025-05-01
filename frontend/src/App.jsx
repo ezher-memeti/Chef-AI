@@ -9,6 +9,7 @@ import ForgotPassword from './pages/Forgot-password';
 import SearchRecipePage from './pages/Search-recipe';
 import Result from './pages/Result-page';
 import ChangePassword from './pages/Change-password'
+import Preferences from './pages/Preferences';
 
 
 const App = () => {
@@ -48,6 +49,11 @@ const App = () => {
         <Route path="/ChangePassword" element={
           <Layout>
             <ChangePassword />
+          </Layout>
+        } />
+        <Route path="/preferences" element={
+          <Layout>
+            <Preferences />
           </Layout>
         } />
         {/* Add other routes as needed */}
