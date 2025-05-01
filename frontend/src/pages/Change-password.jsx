@@ -23,6 +23,7 @@ const ChangePassword = () => {
             username
         };
 
+        //test remove when backend included
         console.log('Sending to backend:', payload);
         setIsError(false);
         setMessage('Password changed successfully!');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import logo from '../../assets/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { ChevronDownIcon, UserCircleIcon } from '@heroicons/react/24/outline'; // or any icon library you're using
 
 const Navbar = () => {
     const [activeLink, setActiveLink] = useState('');
@@ -103,19 +103,47 @@ const Navbar = () => {
                             if (!userName) navigate('/login');
                             else setDropdownOpen(!dropdownOpen);
                         }}
-                        className="bg-white text-[#3E3E3E] border-[0.1px] border-white px-6 py-2 rounded-lg bg-my-button-gradient hover:text-white transition flex items-center gap-2"
+                        className="relative focus:outline-none"
                     >
-                        {userName ? `Profile` : 'Sign In'}
-                        {userName && <ChevronDownIcon className="w-4 h-4" />}
+                        <div className="flex items-center gap-1 p-2 rounded-full">
+                            <UserCircleIcon className="w-8 h-8 text-white hover:text-black transition" />
+                        </div>
                     </button>
                     {dropdownOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg py-2 z-50 text-sm text-gray-700">
                             <div className="px-4 py-2 font-semibold border-b">{userName}</div>
-                            <Link to="/bookmarks" className="block px-4 py-2 hover:bg-gray-100">Bookmarks</Link>
-                            <Link to="/preferences" className="block px-4 py-2 hover:bg-gray-100">Preferences</Link>
-                            <Link to="/ChangePassword" className="block px-4 py-2 hover:bg-gray-100">Change Password</Link>
-                            <button onClick={handleLogOut} className="block w-full text-left px-4 py-2 hover:bg-gray-100">Log Out</button>
+                            <Link
+                                to="/bookmarks"
+                                className="block px-4 py-2 hover:bg-gray-100"
+                                onClick={() => setDropdownOpen(false)}
+                            >
+                                Bookmarks
+                            </Link>
+                            <Link
+                                to="/preferences"
+                                className="block px-4 py-2 hover:bg-gray-100"
+                                onClick={() => setDropdownOpen(false)}
+                            >
+                                Preferences
+                            </Link>
+                            <Link
+                                to="/ChangePassword"
+                                className="block px-4 py-2 hover:bg-gray-100"
+                                onClick={() => setDropdownOpen(false)}
+                            >
+                                Change Password
+                            </Link>
+                            <button
+                                onClick={() => {
+                                    setDropdownOpen(false);
+                                    handleLogOut();
+                                }}
+                                className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            >
+                                Log Out
+                            </button>
                         </div>
+
                     )}
                 </div>
             </div>
