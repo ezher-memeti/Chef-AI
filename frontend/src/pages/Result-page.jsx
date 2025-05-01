@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import SelectedSearchInfo from "../components/SelectedSearchInfo";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
+import { ShareIcon } from "@heroicons/react/20/solid";
 
 const Result = () => {
     const navigate = useNavigate();
@@ -142,6 +143,22 @@ const Result = () => {
 
                 {/* Right Side - Instructions + User Selections */}
                 <div className="flex flex-col justify-between w-2/3 backdrop-blur-md h-full gap-4">
+                    {/* Share Button */}
+                    <button
+                        onClick={() => {
+                            const message = encodeURIComponent(
+                                `Check out this recipe: 
+                                ${selectedRecipe.title} \n Ingredients: \n ${selectedRecipe.ingredients}
+                                Instructions:
+                                ${selectedRecipe.instructions}`
+                            );
+                            const url = `https://wa.me/?text=${message}`;
+                            window.open(url, "_blank");
+                        }}
+                        className="absolute top-4 right-4 z-10 text-myTextPrimary px-4 py-2 rounded hover:text-black"
+                    >
+                        <ShareIcon className="w-6 h-6" />
+                    </button>
 
                     {/* Instructions (top half) */}
                     <div className="flex-1 overflow-y-auto border items-center justify-center text-center bg-white/20 rounded-xl p-6">
@@ -185,11 +202,11 @@ const Result = () => {
                     {/* Search Info (bottom) */}
                     <div className="overflow-y-auto rounded-xl">
                         <div className="flex justify-around items-center text-center text-white p-4 gap-4">
-                            <SelectedSearchInfo searchInfo={selectedSearchInfo.cuisine} />
-                            <SelectedSearchInfo searchInfo={selectedSearchInfo.dietaryPreferences} />
-                            <SelectedSearchInfo searchInfo={selectedSearchInfo.foodType} />
-                            <SelectedSearchInfo searchInfo={selectedSearchInfo.ingredients} />
-                            <SelectedSearchInfo searchInfo={selectedSearchInfo.alergicIngredients} />
+                            <SelectedSearchInfo label="Cuisine" searchInfo={selectedSearchInfo.cuisine} />
+                            <SelectedSearchInfo label="Dietary Preference" searchInfo={selectedSearchInfo.dietaryPreferences} />
+                            <SelectedSearchInfo label="Food Type" searchInfo={selectedSearchInfo.foodType} />
+                            <SelectedSearchInfo label="Ingredients" searchInfo={selectedSearchInfo.ingredients} />
+                            <SelectedSearchInfo label="Allergic Ingredients" searchInfo={selectedSearchInfo.alergicIngredients} />
                             {/* Add more info as needed */}
                         </div>
 
@@ -197,7 +214,7 @@ const Result = () => {
 
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
