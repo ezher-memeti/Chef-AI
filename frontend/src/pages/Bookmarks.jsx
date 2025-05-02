@@ -59,23 +59,6 @@ const Result = () => {
                             "Serve sauce over spaghetti."
                         ]
                     },
-                    {
-                        title: "Chicken Caesar Salad",
-                        ingredients: [
-                            "2 chicken breasts",
-                            "1 romaine lettuce",
-                            "50g parmesan cheese",
-                            "Croutons",
-                            "Caesar dressing",
-                            "Salt and pepper",
-                        ],
-                        instructions: [
-                            "Grill chicken breasts and slice them.",
-                            "Wash and chop romaine lettuce.",
-                            "Mix lettuce, croutons, sliced chicken, and parmesan.",
-                            "Drizzle Caesar dressing over the salad and toss.",
-                        ]
-                    }
                 ];
 
                 if (Array.isArray(data) && data.length > 0) {
@@ -120,7 +103,7 @@ const Result = () => {
         <div className="flex-col mt-4 justify-center align-center">
             <div className="flex justify-between py-4" >
                 <h1 className="text-2xl font-bold bg-my-text-gradient bg-clip-text text-transparent leading-tight">
-                    Chef AI has prepared options,<br />your turn to choose.
+                    Bookmarks
                 </h1>
                 <button onClick={handleReturn} className="flex items-center text-white px-4 py-2">
                     <ChevronLeftIcon className="w-5 h-5 ml-2" />

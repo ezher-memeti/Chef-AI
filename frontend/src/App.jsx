@@ -10,6 +10,7 @@ import SearchRecipePage from './pages/Search-recipe';
 import Result from './pages/Result-page';
 import ChangePassword from './pages/Change-password'
 import Preferences from './pages/Preferences';
+import Bookmarks from './pages/Bookmarks'
 
 
 const App = () => {
@@ -54,6 +55,11 @@ const App = () => {
         <Route path="/preferences" element={
           <Layout>
             <Preferences />
+          </Layout>
+        } />
+        <Route path="/bookmarks" element={
+          <Layout>
+            <Bookmarks />
           </Layout>
         } />
         {/* Add other routes as needed */}
