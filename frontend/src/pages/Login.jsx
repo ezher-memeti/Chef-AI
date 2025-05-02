@@ -11,7 +11,9 @@ const LoginPage = () => {
 
         // Fake login logic
         const fakeUserName = 'John Doe';
+        const fakeUserId = 12;
         localStorage.setItem('userName', fakeUserName);
+        localStorage.setItem('userId', fakeUserId);
 
         // Redirect to homepage
         navigate('/');
@@ -36,6 +38,7 @@ const LoginPage = () => {
                 <AuthForm
                     onSubmit={handleLogin}
                     isLogin={true}
+                    type="login"
                     heading="Log In"
                     subheading="Access your account and manage your tasks"
                 />

@@ -8,6 +8,12 @@ import RegisterPage from './pages/Register';
 import ForgotPassword from './pages/Forgot-password';
 import SearchRecipePage from './pages/Search-recipe';
 import Result from './pages/Result-page';
+import ChangePassword from './pages/Change-password'
+import Preferences from './pages/Preferences';
+import Bookmarks from './pages/Bookmarks'
+import HowItWorks from './pages/HowItWorks';
+import FAQ from './pages/FAQ';
+import AboutUs from './pages/AboutUs';
 
 
 const App = () => {
@@ -42,6 +48,36 @@ const App = () => {
         <Route path="/" element={
           <Layout>
             <SearchRecipePage />
+          </Layout>
+        } />
+        <Route path="/ChangePassword" element={
+          <Layout>
+            <ChangePassword />
+          </Layout>
+        } />
+        <Route path="/preferences" element={
+          <Layout>
+            <Preferences />
+          </Layout>
+        } />
+        <Route path="/bookmarks" element={
+          <Layout>
+            <Bookmarks />
+          </Layout>
+        } />
+        <Route path="/howItWorks" element={
+          <Layout>
+            <HowItWorks />
+          </Layout>
+        } />
+        <Route path="/FAQ" element={
+          <Layout>
+            <FAQ />
+          </Layout>
+        } />
+        <Route path="/aboutUs" element={
+          <Layout>
+            <AboutUs />
           </Layout>
         } />
         {/* Add other routes as needed */}
