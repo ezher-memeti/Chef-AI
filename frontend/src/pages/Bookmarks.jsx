@@ -80,7 +80,7 @@ const Result = () => {
     }, [navigate]);
 
     const handleReturn = () => {
-        navigate("/"); // Go back to home/search page
+        navigate(-1); // Go back to home/search page
     };
 
     if (loading) {
