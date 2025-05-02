@@ -93,9 +93,9 @@ const Navbar = () => {
             <div className="flex-1"></div>
 
             <div className="navbar-container flex items-center gap-2">
-                <NavLink href="#how-it-works">How it Works</NavLink>
-                <NavLink href="#about-us">About Us</NavLink>
-                <NavLink href="#faq">FAQ</NavLink>
+                <NavLink href="/howItWorks">How it Works</NavLink>
+                <NavLink href="/aboutUs">About Us</NavLink>
+                <NavLink href="/FAQ">FAQ</NavLink>
 
                 <div className="relative" ref={dropdownRef}>
                     <button
