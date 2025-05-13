@@ -17,6 +17,13 @@ yarn-error.log*
 # VS Code
 .vscode/
 
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
 # ASP.NET Core / C#
 server/bin/
 server/obj/
