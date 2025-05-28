@@ -32,3 +32,38 @@
 /Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.pdb
 /Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.genruntimeconfig.cache
 /Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ref/ChefAI.API.dll
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.Development.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.staticwebassets.endpoints.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.deps.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.runtimeconfig.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.dll
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.pdb
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/Microsoft.OpenApi.dll
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.AssemblyReference.cache
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.AssemblyInfoInputs.cache
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.AssemblyInfo.cs
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.CoreCompileInputs.cache
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.MvcApplicationPartsAssemblyInfo.cs
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.MvcApplicationPartsAssemblyInfo.cache
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.sourcelink.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/scopedcss/bundle/ChefAI.API.styles.css
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.build.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.development.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.build.endpoints.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.ChefAI.API.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.ChefAI.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.build.ChefAI.API.props
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.ChefAI.API.props
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.ChefAI.API.props
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.pack.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.Up2Date
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.dll
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/refint/ChefAI.API.dll
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.pdb
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.genruntimeconfig.cache
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ref/ChefAI.API.dll
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/ezhermemeti.json
