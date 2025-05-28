@@ -1,47 +1,115 @@
-using ChefAI.API.Models;
-using ChefAI.API.Services.Interfaces;
-using System.Collections.Concurrent;
-
-namespace ChefAI.API.Services
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private readonly string _storagePath = Path.Combine("backend", "ChefAI.API", "JSONFiles");
+
+    public UserService()
     {
-        private readonly ConcurrentDictionary<string, User> _users = new();
+        Directory.CreateDirectory(_storagePath);
+    }
 
-        public User CreateAccount(string username, string password, string firstName, string lastName, string question, string answer)
-        {
-            var user = User.CreateAccount(username, password, firstName, lastName, question, answer);
-            _users[username] = user;
-            return user;
-        }
+    private int GetNextUserId()
+    {
+        var files = Directory.GetFiles(_storagePath, "*.json");
 
-        public bool Login(string username, string password)
-        {
-            return _users.TryGetValue(username, out var user) && user.Login(password);
-        }
+        int maxId = 0;
 
-        public string GetSecurityQuestion(string username)
+        foreach (var file in files)
         {
-            return _users.TryGetValue(username, out var user) ? user.SecurityQuestion : null;
-        }
+            var json = File.ReadAllText(file);
+            var userDto = JsonSerializer.Deserialize<UserDto>(json);
 
-        public bool ValidateSecurityAnswer(string username, string answer)
-        {
-            return _users.TryGetValue(username, out var user) && user.ValidateSecurityAnswer(answer);
-        }
-
-        public void UpdatePassword(string username, string newPassword)
-        {
-            if (_users.TryGetValue(username, out var user))
+            if (userDto != null && userDto.Id > maxId)
             {
-                user.UpdatePassword(newPassword);
+                maxId = userDto.Id;
             }
         }
 
-        public User GetUser(string username)
+        return maxId + 1;
+    }
+
+    public User CreateAccount(string username, string password, string firstName, string lastName, string question, string answer)
+    {
+        var id = GetNextUserId();
+
+        var user = User.CreateAccount(id, username, password, firstName, lastName, question, answer);
+
+        var userDto = new UserDto
         {
-            _users.TryGetValue(username, out var user);
-            return user;
+            Id = id,
+            Username = username,
+            Password = password,
+            FirstName = firstName,
+            LastName = lastName,
+            SecurityQuestion = question,
+            SecurityAnswer = answer
+        };
+
+        SaveUserDto(userDto);
+        return user;
+    }
+
+    public bool Login(string username, string password)
+    {
+        var user = GetUser(username);
+        return user != null && user.Login(password);
+    }
+
+    public string GetSecurityQuestion(string username)
+    {
+        var user = GetUser(username);
+        return user?.SecurityQuestion;
+    }
+
+    public bool ValidateSecurityAnswer(string username, string answer)
+    {
+        var user = GetUser(username);
+        return user?.ValidateSecurityAnswer(answer) == true;
+    }
+
+    public void UpdatePassword(string username, string newPassword)
+    {
+        var userDto = LoadUserDto(username);
+        if (userDto != null)
+        {
+            userDto.Password = newPassword;
+            SaveUserDto(userDto);
         }
+    }
+
+    public User GetUser(string username)
+    {
+        var userDto = LoadUserDto(username);
+        if (userDto == null) return null;
+
+        return User.CreateAccount(
+            userDto.Id,
+            userDto.Username,
+            userDto.Password,
+            userDto.FirstName,
+            userDto.LastName,
+            userDto.SecurityQuestion,
+            userDto.SecurityAnswer
+        );
+    }
+
+    private void SaveUserDto(UserDto userDto)
+    {
+        var path = GetUserFilePath(userDto.Username);
+        var json = JsonSerializer.Serialize(userDto, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(path, json);
+    }
+
+    private UserDto LoadUserDto(string username)
+    {
+        var path = GetUserFilePath(username);
+        if (!File.Exists(path)) return null;
+
+        var json = File.ReadAllText(path);
+        return JsonSerializer.Deserialize<UserDto>(json);
+    }
+
+    private string GetUserFilePath(string username)
+    {
+        return Path.Combine(_storagePath, $"{username}.json");
     }
 }
