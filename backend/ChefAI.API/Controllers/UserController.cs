@@ -15,24 +15,25 @@ namespace ChefAI.API.Controllers
             _userService = userService;
         }
 
-        [HttpPost("register")]
+     [HttpPost("register")]
         public IActionResult Register([FromBody] UserDto userDto)
         {
-            var user = _userService.CreateAccount(
-                userDto.Username,
-                userDto.Password,
-                userDto.SecurityQuestion,
-                userDto.SecurityAnswer
-            );
+            try
+            {
+                var user = _userService.CreateAccount(
+                    userDto.Username,
+                    userDto.Password,
+                    userDto.SecurityQuestion,
+                    userDto.SecurityAnswer
+                );
 
-            return Ok(user);
+                return Ok(user);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); // "Username already exists."
+            }
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginDto loginDto)
-        {
-            bool success = _userService.Login(loginDto.Username, loginDto.Password);
-            return success ? Ok("Login successful.") : Unauthorized("Login failed.");
-        }
     }
 }

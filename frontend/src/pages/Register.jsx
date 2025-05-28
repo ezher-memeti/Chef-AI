@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
+import { useState } from 'react';
 
 const RegisterPage = () => {
     const securityQuestions = [
@@ -14,8 +15,10 @@ const RegisterPage = () => {
 
     const navigate = useNavigate();
 
+    const [error, setError] = useState('');
 
     const handleRegister = async (formData) => {
+
 
         try {
             console.log('Register form data:', formData);
@@ -34,11 +37,11 @@ const RegisterPage = () => {
             });
 
             if (response.ok) {
-                alert('Registration successful!');
-                navigate('/login');
+                setError('');
+                navigate('/');
             } else {
                 const errorText = await response.text();
-                alert(`Registration failed: ${errorText}`);
+                setError(errorText);
             }
         } catch (error) {
             console.error('Registration error:', error);
@@ -70,7 +73,9 @@ const RegisterPage = () => {
                     subheading="Join the platform and get started"
                     securityQuestions={securityQuestions}
                     onSubmit={handleRegister}
+                    Error={error}
                 />
+
             </div>
         </div>
     );
