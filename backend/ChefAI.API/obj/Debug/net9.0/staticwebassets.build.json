@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "nrNix2XtbcV/4+PKI9sU0gHWX2il8Jw7fDKK3BWVA08=",
+  "Source": "ChefAI.API",
+  "BasePath": "_content/ChefAI.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
