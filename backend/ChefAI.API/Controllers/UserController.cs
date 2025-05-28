@@ -16,7 +16,7 @@ namespace ChefAI.API.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register([FromBody] User userDto)
+        public IActionResult Register([FromBody] UserDto userDto)
         {
             var user = _userService.CreateAccount(
                 userDto.Username,

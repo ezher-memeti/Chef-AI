@@ -1,4 +1,5 @@
 using ChefAI.API.Models;
+using ChefAI.API.DTOs;
 
 namespace ChefAI.API.Services.Interfaces
 {
@@ -9,6 +10,6 @@ namespace ChefAI.API.Services.Interfaces
         string GetSecurityQuestion(string username);
         bool ValidateSecurityAnswer(string username, string answer);
         void UpdatePassword(string username, string newPassword);
-        User GetUser(string username);
+        User GetUser(string username); 
     }
 }
