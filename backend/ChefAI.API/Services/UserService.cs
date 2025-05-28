@@ -67,8 +67,8 @@ public class UserService : IUserService
 
     public string GetSecurityQuestion(string username)
     {
-        var user = GetUser(username);
-        return user?.SecurityQuestion;
+        var userDto = LoadUserDto(username);
+        return userDto?.SecurityQuestion;
     }
 
     public bool ValidateSecurityAnswer(string username, string answer)
