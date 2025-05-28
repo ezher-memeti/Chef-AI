@@ -83,12 +83,16 @@ const Navbar = () => {
             </a>
         );
     };
-
+    const isLoggedIn = !!localStorage.getItem('userName'); // or check for 'userId'
     return (
         <nav className="w-full fixed top-0 left-0 flex items-center justify-between px-8 bg-transparent z-50">
-            <Link to="/">
-                <img src={logo} alt="Logo" className="h-24 w-24 cursor-pointer" />
-            </Link>
+            {isLoggedIn ? (
+                <Link to="/searchRecipePage">
+                    <img src={logo} alt="Logo" className="h-24 w-24 cursor-pointer" />
+                </Link>
+            ) : (
+                <img src={logo} alt="Logo" className="h-24 w-24 opacity-50 cursor-default" />
+            )}
 
             <div className="flex-1"></div>
 
