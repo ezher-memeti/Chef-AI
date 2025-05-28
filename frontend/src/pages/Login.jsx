@@ -6,18 +6,35 @@ import AuthForm from '../components/AuthForm';
 const LoginPage = () => {
     const navigate = useNavigate();
 
-    const handleLogin = (formData) => {
-        console.log('Login data:', formData);
+    const handleLogin = async (formData) => {
+        try {
+            console.log('Login data:', formData);
 
-        // Fake login logic
-        const fakeUserName = 'John Doe';
-        const fakeUserId = 12;
-        localStorage.setItem('userName', fakeUserName);
-        localStorage.setItem('userId', fakeUserId);
+            const response = await fetch('http://localhost:5000/api/User/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
 
-        // Redirect to homepage
-        navigate('/');
+            if (response.ok) {
+                // Optionally extract additional user data from backend response if needed
+                localStorage.setItem('userName', formData.Username);
+                // localStorage.setItem('userId', userId); // If backend sends this info
+
+                // Redirect to homepage
+                navigate('/searchRecipePage');
+            } else {
+                const errorText = await response.text();
+                alert(`Login failed: ${errorText}`);
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('An error occurred while logging in.');
+        }
     };
+
 
     return (
         <div className="w-full py-[100px] flex justify-center items-center">
