@@ -39,6 +39,3 @@ server/*.sln.docstates
 *.env
 .env.*
 
-# ASP.NET Core project build outputs
-backend/ChefAI.API/obj/
-backend/ChefAI.API/bin/
