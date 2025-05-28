@@ -23,7 +23,7 @@ const LoginPage = () => {
 
             if (response.ok) {
                 // Optionally extract additional user data from backend response if needed
-                localStorage.setItem('userName', formData.Username);
+                localStorage.setItem('userName', formData.username);
                 // localStorage.setItem('userId', userId); // If backend sends this info
 
                 // Redirect to homepage
@@ -62,12 +62,9 @@ const LoginPage = () => {
                     type="login"
                     heading="Log In"
                     subheading="Access your account and manage your tasks"
+                    Error={error}
                 />
-                {error && (
-                    <div className="text-red-500 bg-red-100 border border-red-300 rounded-md px-4 py-2 mb-4">
-                        {error}
-                    </div>
-                )}
+
             </div>
         </div>
     );
