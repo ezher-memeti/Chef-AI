@@ -1,7 +1,7 @@
 {
   "Id": 3,
   "Username": "admin",
-  "Password": "1234",
+  "Password": "123",
   "SecurityQuestion": "What was your childhood nickname?",
   "SecurityAnswer": "12"
 }
