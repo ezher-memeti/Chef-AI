@@ -2,6 +2,7 @@
 {
     public class User
     {
+        public int Id { get; set; } // assigned during creation
         public string Username { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
@@ -14,10 +15,11 @@
         public string GetSecurityQuestion() => SecurityQuestion;
         public string GetSecurityAnswer() => SecurityAnswer;
 
-        public static User CreateAccount(string username, string password, string firstName, string lastName, string securityQuestion, string securityAnswer)
+        public static User CreateAccount(int id, string username, string password, string firstName, string lastName, string securityQuestion, string securityAnswer)
         {
             return new User
             {
+                Id = id,
                 Username = username,
                 Password = password,
                 FirstName = firstName,
@@ -27,19 +29,11 @@
             };
         }
 
-        public bool Login(string password)
-        {
-            return Password == password;
-        }
+        public bool Login(string password) => Password == password;
 
-        public bool ValidateSecurityAnswer(string inputAnswer)
-        {
-            return SecurityAnswer.Equals(inputAnswer, StringComparison.OrdinalIgnoreCase);
-        }
+        public bool ValidateSecurityAnswer(string inputAnswer) =>
+            SecurityAnswer.Equals(inputAnswer, StringComparison.OrdinalIgnoreCase);
 
-        public void UpdatePassword(string newPassword)
-        {
-            Password = newPassword;
-        }
+        public void UpdatePassword(string newPassword) => Password = newPassword;
     }
 }
