@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AuthForm from '../components/AuthForm'; // adjust the path if needed
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [securityQuestion, setSecurityQuestion] = useState('');
@@ -7,6 +8,9 @@ const ForgotPassword = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     // Fetch the security question based on email (or username)
+
+    const navigate = useNavigate();
+
     const fetchSecurityQuestion = async (email) => {
         setLoading(true);
         setError('');
@@ -29,6 +33,9 @@ const ForgotPassword = () => {
     const handleForgotPasswordSubmit = (formData) => {
         console.log('Forgot Password Submit:', formData);
         // Your forgot password logic here
+
+        navigate("/");
+
     };
 
     return (
