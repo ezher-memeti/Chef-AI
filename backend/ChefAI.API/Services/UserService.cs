@@ -33,23 +33,31 @@ public class UserService : IUserService
     }
 
     public User CreateAccount(string username, string password, string question, string answer)
+{
+    var existingUser = LoadUserDto(username);
+    if (existingUser != null)
     {
-        var id = GetNextUserId();
-
-        var user = User.CreateAccount(id, username, password, question, answer);
-
-        var userDto = new UserDto
-        {
-            Id = id,
-            Username = username,
-            Password = password,
-            SecurityQuestion = question,
-            SecurityAnswer = answer
-        };
-
-        SaveUserDto(userDto);
-        return user;
+        // Username already exists
+        throw new InvalidOperationException("Username already exists.");
     }
+
+    var id = GetNextUserId();
+
+    var user = User.CreateAccount(id, username, password, question, answer);
+
+    var userDto = new UserDto
+    {
+        Id = id,
+        Username = username,
+        Password = password,
+        SecurityQuestion = question,
+        SecurityAnswer = answer
+    };
+
+    SaveUserDto(userDto);
+    return user;
+}
+
 
     public bool Login(string username, string password)
     {
@@ -59,8 +67,8 @@ public class UserService : IUserService
 
     public string GetSecurityQuestion(string username)
     {
-        var user = GetUser(username);
-        return user?.SecurityQuestion;
+        var userDto = LoadUserDto(username);
+        return userDto?.SecurityQuestion;
     }
 
     public bool ValidateSecurityAnswer(string username, string answer)

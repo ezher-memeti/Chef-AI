@@ -67,3 +67,5 @@
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.genruntimeconfig.cache
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ref/ChefAI.API.dll
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/ezhermemeti.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/admin.json
+/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/emir.json

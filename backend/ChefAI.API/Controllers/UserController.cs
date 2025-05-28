@@ -18,21 +18,53 @@ namespace ChefAI.API.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserDto userDto)
         {
-            var user = _userService.CreateAccount(
-                userDto.Username,
-                userDto.Password,
-                userDto.SecurityQuestion,
-                userDto.SecurityAnswer
-            );
+            try
+            {
+                var user = _userService.CreateAccount(
+                    userDto.Username,
+                    userDto.Password,
+                    userDto.SecurityQuestion,
+                    userDto.SecurityAnswer
+                );
 
-            return Ok(user);
+                return Ok(user);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); // "Username already exists."
+            }
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] User loginDto)
+        public IActionResult Login([FromBody] LoginDto loginDto)
         {
             bool success = _userService.Login(loginDto.Username, loginDto.Password);
             return success ? Ok("Login successful.") : Unauthorized("Login failed.");
+        }
+
+        [HttpGet("security-question")]
+        public IActionResult GetSecurityQuestion([FromQuery] string username)
+        {
+            var question = _userService.GetSecurityQuestion(username);
+            if (question == null)
+                return NotFound("User not found.");
+
+            return Ok(new { question });
+        }
+
+
+        [HttpPost("validate-answer")]
+        public IActionResult ValidateSecurityAnswer([FromBody] SecurityAnswerDto dto)
+        {
+            bool isValid = _userService.ValidateSecurityAnswer(dto.Username, dto.Answer);
+            return isValid ? Ok("Answer is correct.") : Unauthorized("Incorrect answer.");
+        }
+
+        [HttpPost("update-password")]
+        public IActionResult UpdatePassword([FromBody] UpdatePasswordDto dto)
+        {
+            _userService.UpdatePassword(dto.Username, dto.NewPassword);
+            return Ok("Password updated successfully.");
         }
     }
 }
