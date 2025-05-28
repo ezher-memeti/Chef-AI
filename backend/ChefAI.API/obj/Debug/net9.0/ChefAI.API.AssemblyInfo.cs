@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChefAI.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+77b165b51b79582611c9f47a93c3427cf732e7a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+252d155cca6b68edf40fac62c997078bef5c6c62")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChefAI.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChefAI.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
