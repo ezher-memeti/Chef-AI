@@ -5,8 +5,6 @@
         public int Id { get; set; } // assigned during creation
         public string Username { get; set; }
         public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
 
@@ -15,15 +13,13 @@
         public string GetSecurityQuestion() => SecurityQuestion;
         public string GetSecurityAnswer() => SecurityAnswer;
 
-        public static User CreateAccount(int id, string username, string password, string firstName, string lastName, string securityQuestion, string securityAnswer)
+        public static User CreateAccount(int id, string username, string password, string securityQuestion, string securityAnswer)
         {
             return new User
             {
                 Id = id,
                 Username = username,
                 Password = password,
-                FirstName = firstName,
-                LastName = lastName,
                 SecurityQuestion = securityQuestion,
                 SecurityAnswer = securityAnswer
             };

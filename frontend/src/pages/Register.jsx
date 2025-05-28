@@ -20,7 +20,7 @@ const RegisterPage = () => {
         try {
             console.log('Register form data:', formData);
 
-            const response = await fetch('http://localhost:5000/api/User/register', {
+            const response = await fetch('http://localhost:5004/api/User/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,8 +28,6 @@ const RegisterPage = () => {
                 body: JSON.stringify({
                     Username: formData.username,
                     Password: formData.password,
-                    FirstName: formData.firstName,
-                    LastName: formData.lastName,
                     SecurityQuestion: formData.securityQuestion,
                     SecurityAnswer: formData.securityAnswer,
                 }),

@@ -24,7 +24,7 @@ const AuthForm = ({
         let formData;
         switch (type) {
             case 'login':
-                formData = { email, password };
+                formData = { username, password };
                 break;
             case 'register':
                 formData = { email, username, password, securityQuestion, securityAnswer };
@@ -56,7 +56,7 @@ const AuthForm = ({
     const isFormValid = (() => {
         switch (type) {
             case 'login':
-                return email && password && isEmailValid(email);
+                return username && password;
             case 'register':
                 return username && email && isEmailValid(email)
                     && password && reEnterPassword
@@ -84,7 +84,7 @@ const AuthForm = ({
 
                 <form onSubmit={handleSubmit}>
                     {/* Username only for register */}
-                    {type === "register" && (
+                    {type === "register" || type === "login" && (
                         <div className="mb-6">
                             <label htmlFor="username" className="block text-white mb-2">Username</label>
                             <input
@@ -100,7 +100,7 @@ const AuthForm = ({
                     )}
 
                     {/* Email for all except changePassword */}
-                    {type !== 'changePassword' && (
+                    {type !== 'changePassword' && type !== "login" && (
                         <div className="mb-6">
                             <label htmlFor="email" className="block text-white mb-2">Email</label>
                             <input

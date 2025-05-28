@@ -32,19 +32,17 @@ public class UserService : IUserService
         return maxId + 1;
     }
 
-    public User CreateAccount(string username, string password, string firstName, string lastName, string question, string answer)
+    public User CreateAccount(string username, string password, string question, string answer)
     {
         var id = GetNextUserId();
 
-        var user = User.CreateAccount(id, username, password, firstName, lastName, question, answer);
+        var user = User.CreateAccount(id, username, password, question, answer);
 
         var userDto = new UserDto
         {
             Id = id,
             Username = username,
             Password = password,
-            FirstName = firstName,
-            LastName = lastName,
             SecurityQuestion = question,
             SecurityAnswer = answer
         };
@@ -90,8 +88,6 @@ public class UserService : IUserService
             userDto.Id,
             userDto.Username,
             userDto.Password,
-            userDto.FirstName,
-            userDto.LastName,
             userDto.SecurityQuestion,
             userDto.SecurityAnswer
         );

@@ -21,8 +21,6 @@ namespace ChefAI.API.Controllers
             var user = _userService.CreateAccount(
                 userDto.Username,
                 userDto.Password,
-                userDto.FirstName,
-                userDto.LastName,
                 userDto.SecurityQuestion,
                 userDto.SecurityAnswer
             );
