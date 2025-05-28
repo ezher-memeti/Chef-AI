@@ -1,5 +1,5 @@
 // src/components/AuthForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AuthForm = ({
     onSubmit,
@@ -9,7 +9,8 @@ const AuthForm = ({
     subheading,
     securityQuestions = [],
     securityQuestionFromBackend = '',
-    Error
+    Error,
+    fetchSecurityQuestion = () => { }
 }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,9 +19,22 @@ const AuthForm = ({
     const [securityQuestion, setSecurityQuestion] = useState('');
     const [securityAnswer, setSecurityAnswer] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [questionFetched, setQuestionFetched] = useState(false);
+
+    useEffect(() => {
+        // Reset question fetch state when username changes
+        setQuestionFetched(false);
+        setSecurityQuestion('');
+    }, [username]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (type === 'forgotPassword' && !questionFetched) {
+            fetchSecurityQuestion(username);
+            setQuestionFetched(true);
+            return;
+        }
 
         let formData;
         switch (type) {
@@ -31,7 +45,7 @@ const AuthForm = ({
                 formData = { email, username, password, securityQuestion, securityAnswer };
                 break;
             case 'forgotPassword':
-                formData = { email, password, reEnterPassword, securityAnswer };
+                formData = { username, password, reEnterPassword, securityAnswer };
                 break;
             case 'changePassword':
                 formData = { password, reEnterPassword };
@@ -39,7 +53,6 @@ const AuthForm = ({
             default:
                 break;
         }
-
 
         onSubmit(formData);
         window.dispatchEvent(new Event('storage'));
@@ -49,25 +62,19 @@ const AuthForm = ({
         setShowPassword(prev => !prev);
     };
 
-    const isEmailValid = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    };
-
     const isFormValid = (() => {
         switch (type) {
             case 'login':
                 return username && password;
             case 'register':
-                return username
-                    && password && reEnterPassword
-                    && password === reEnterPassword
-                    && securityQuestion && securityAnswer;
+                return username && password && reEnterPassword && password === reEnterPassword && securityQuestion && securityAnswer;
             case 'forgotPassword':
-                return username
-                    && password && reEnterPassword
-                    && password === reEnterPassword
-                    && securityAnswer;
+                if (!questionFetched) {
+                    return !!username; // Only username required to fetch question
+                }
+                return username && password && reEnterPassword &&
+                    password === reEnterPassword &&
+                    securityAnswer;
             case 'changePassword':
                 return password && reEnterPassword && password === reEnterPassword;
             default:
@@ -84,7 +91,7 @@ const AuthForm = ({
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    {/* Username for register login and forgotPassword */}
+                    {/* Username for all but changePassword */}
                     {type !== "changePassword" && (
                         <div className="mb-6">
                             <label htmlFor="username" className="block text-white mb-2">Username</label>
@@ -95,36 +102,45 @@ const AuthForm = ({
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 required
-                                className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
+                                className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white transition"
                             />
                         </div>
                     )}
 
-                    {/* Password field */}
-                    <div className="mb-6">
-                        <label htmlFor="password" className="block text-white mb-2">Password</label>
-                        <div className="relative">
-                            <input
-                                id="password"
-                                type={showPassword ? 'text' : 'password'}
-                                placeholder="Enter your Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
-                            />
-                            <button
-                                type="button"
-                                onClick={togglePasswordVisibility}
-                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                            >
-                                {showPassword ? 'Hide' : 'Show'}
-                            </button>
+                    {/* Display fetched security question before allowing password input */}
+                    {type === 'forgotPassword' && !questionFetched && (
+                        <div className="text-white text-sm mb-4">
+                            Enter your username and click submit to fetch your security question.
                         </div>
-                    </div>
+                    )}
+
+                    {/* Password field (shown after question fetch in forgotPassword) */}
+                    {type !== 'forgotPassword' || questionFetched ? (
+                        <div className="mb-6">
+                            <label htmlFor="password" className="block text-white mb-2">Password</label>
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="Enter your Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white transition"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                >
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
+                            </div>
+                        </div>
+                    ) : null}
 
                     {/* Re-enter password */}
-                    {(type !== 'login') && (
+                    {(type !== 'login') && (type !== 'forgotPassword' || questionFetched) && (
                         <div className="mb-6">
                             <label htmlFor="reenter-password" className="block text-white mb-2">Re-enter Password</label>
                             <input
@@ -134,7 +150,7 @@ const AuthForm = ({
                                 value={reEnterPassword}
                                 onChange={(e) => setReEnterPassword(e.target.value)}
                                 required
-                                className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
+                                className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white transition"
                             />
                             {password && reEnterPassword && password !== reEnterPassword && (
                                 <p className="text-red-500 text-sm mt-1">Passwords do not match.</p>
@@ -143,7 +159,7 @@ const AuthForm = ({
                     )}
 
                     {/* Security Question + Answer for register and forgotPassword */}
-                    {(type === 'register' || type === 'forgotPassword') && (
+                    {(type === 'register' || (type === 'forgotPassword' && questionFetched)) && (
                         <div className="mb-6 flex flex-col md:flex-row gap-4">
                             <div className="w-full md:w-1/2">
                                 <label htmlFor="security-question" className="block text-white mb-2">Security Question</label>
@@ -153,7 +169,7 @@ const AuthForm = ({
                                         value={securityQuestion}
                                         onChange={(e) => setSecurityQuestion(e.target.value)}
                                         required
-                                        className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
+                                        className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white transition"
                                     >
                                         <option value="" disabled>Select a question</option>
                                         {securityQuestions.map((question, index) => (
@@ -161,7 +177,7 @@ const AuthForm = ({
                                         ))}
                                     </select>
                                 ) : (
-                                    <div className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition">
+                                    <div className="w-full p-3 rounded-md bg-white bg-opacity-80">
                                         {securityQuestionFromBackend || "Security question"}
                                     </div>
                                 )}
@@ -176,7 +192,7 @@ const AuthForm = ({
                                     value={securityAnswer}
                                     onChange={(e) => setSecurityAnswer(e.target.value)}
                                     required
-                                    className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
+                                    className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white transition"
                                 />
                             </div>
                         </div>
@@ -191,12 +207,13 @@ const AuthForm = ({
                         {{
                             login: 'Log-in',
                             register: 'Register',
-                            forgotPassword: 'Reset Password',
+                            forgotPassword: questionFetched ? 'Reset Password' : 'Get Question',
                             changePassword: 'Change Password'
                         }[type]}
                     </button>
+
                     {Error && (
-                        <div className="text-red-500 py-2">
+                        <div className="text-red-500 py-2 text-sm">
                             {Error}
                         </div>
                     )}
@@ -218,10 +235,10 @@ const AuthForm = ({
                             <span>Remember your password? <a href="/" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
                         )}
                     </div>
-
                 </form>
             </div>
         </div>
     );
 };
+
 export default AuthForm;
