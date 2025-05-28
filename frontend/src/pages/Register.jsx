@@ -14,24 +14,40 @@ const RegisterPage = () => {
 
     const navigate = useNavigate();
 
-    const handleRegister = (formData) => {
-        console.log('Register form data:', formData);
 
-        // Example: send this data to your backend
-        /*
-        {
-          email: formData.email,
-          username: formData.username,
-          password: formData.password,
-          securityQuestion: formData.securityQuestion,
-          securityAnswer: formData.securityAnswer
+    const handleRegister = async (formData) => {
+
+        try {
+            console.log('Register form data:', formData);
+
+            const response = await fetch('http://localhost:5000/api/User/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Username: formData.username,
+                    Password: formData.password,
+                    FirstName: formData.firstName,
+                    LastName: formData.lastName,
+                    SecurityQuestion: formData.securityQuestion,
+                    SecurityAnswer: formData.securityAnswer,
+                }),
+            });
+
+            if (response.ok) {
+                alert('Registration successful!');
+                navigate('/login');
+            } else {
+                const errorText = await response.text();
+                alert(`Registration failed: ${errorText}`);
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            alert('An error occurred while registering.');
         }
-        */
-
-        // Redirect after successful register
-        navigate('/');
-
     };
+
 
     return (
         <div className="w-full py-[50px] flex justify-center items-center">
