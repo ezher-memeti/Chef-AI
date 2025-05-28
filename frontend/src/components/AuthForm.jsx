@@ -58,12 +58,12 @@ const AuthForm = ({
             case 'login':
                 return username && password;
             case 'register':
-                return username && email && isEmailValid(email)
+                return username
                     && password && reEnterPassword
                     && password === reEnterPassword
                     && securityQuestion && securityAnswer;
             case 'forgotPassword':
-                return email && isEmailValid(email)
+                return username
                     && password && reEnterPassword
                     && password === reEnterPassword
                     && securityAnswer;
@@ -83,8 +83,8 @@ const AuthForm = ({
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    {/* Username only for register */}
-                    {type === "register" || type === "login" && (
+                    {/* Username for register login and forgotPassword */}
+                    {type !== "changePassword" && (
                         <div className="mb-6">
                             <label htmlFor="username" className="block text-white mb-2">Username</label>
                             <input
@@ -96,25 +96,6 @@ const AuthForm = ({
                                 required
                                 className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
                             />
-                        </div>
-                    )}
-
-                    {/* Email for all except changePassword */}
-                    {type !== 'changePassword' && type !== "login" && (
-                        <div className="mb-6">
-                            <label htmlFor="email" className="block text-white mb-2">Email</label>
-                            <input
-                                id="email"
-                                type="email"
-                                placeholder="Enter your Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="w-full p-3 rounded-md bg-white bg-opacity-80 outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition"
-                            />
-                            {email && !isEmailValid(email) && (
-                                <p className="text-red-500 text-sm mt-1">Please enter a valid email address.</p>
-                            )}
                         </div>
                     )}
 
@@ -225,10 +206,10 @@ const AuthForm = ({
                             </>
                         )}
                         {type === 'register' && (
-                            <span>Already have an account? <a href="/login" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
+                            <span>Already have an account? <a href="/" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
                         )}
                         {type === 'forgotPassword' && (
-                            <span>Remember your password? <a href="/login" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
+                            <span>Remember your password? <a href="/" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
                         )}
                     </div>
                 </form>
