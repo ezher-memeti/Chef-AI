@@ -1,3 +1,8 @@
+using ChefAI.API.Models;
+using ChefAI.API.Services.Interfaces;
+using System.Text.Json;
+
+
 public class UserService : IUserService
 {
     private readonly string _storagePath = Path.Combine("backend", "ChefAI.API", "JSONFiles");
