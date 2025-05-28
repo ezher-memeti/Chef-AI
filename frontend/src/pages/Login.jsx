@@ -2,9 +2,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
+import { useState } from 'react';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const [error, setError] = useState('');
+
 
     const handleLogin = async (formData) => {
         try {
@@ -24,10 +27,11 @@ const LoginPage = () => {
                 // localStorage.setItem('userId', userId); // If backend sends this info
 
                 // Redirect to homepage
+                setError(''); // Clear any previous error
                 navigate('/searchRecipePage');
             } else {
                 const errorText = await response.text();
-                alert(`Login failed: ${errorText}`);
+                setError(errorText); // Show error inside card
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -59,6 +63,11 @@ const LoginPage = () => {
                     heading="Log In"
                     subheading="Access your account and manage your tasks"
                 />
+                {error && (
+                    <div className="text-red-500 bg-red-100 border border-red-300 rounded-md px-4 py-2 mb-4">
+                        {error}
+                    </div>
+                )}
             </div>
         </div>
     );

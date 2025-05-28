@@ -8,7 +8,8 @@ const AuthForm = ({
     heading,
     subheading,
     securityQuestions = [],
-    securityQuestionFromBackend = ''
+    securityQuestionFromBackend = '',
+    Error
 }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -194,6 +195,11 @@ const AuthForm = ({
                             changePassword: 'Change Password'
                         }[type]}
                     </button>
+                    {Error && (
+                        <div className="text-red-500 py-2">
+                            {Error}
+                        </div>
+                    )}
 
                     {/* Navigation Links */}
                     <div className="text-center mt-4 text-myTextPrimary text-sm">
@@ -212,6 +218,7 @@ const AuthForm = ({
                             <span>Remember your password? <a href="/" className="text-myLink hover:underline font-bold ml-1">Log-in here</a></span>
                         )}
                     </div>
+
                 </form>
             </div>
         </div>
