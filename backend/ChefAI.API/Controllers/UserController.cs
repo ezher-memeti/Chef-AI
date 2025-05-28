@@ -15,7 +15,7 @@ namespace ChefAI.API.Controllers
             _userService = userService;
         }
 
-     [HttpPost("register")]
+        [HttpPost("register")]
         public IActionResult Register([FromBody] UserDto userDto)
         {
             try
@@ -35,5 +35,11 @@ namespace ChefAI.API.Controllers
             }
         }
 
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginDto loginDto)
+        {
+            bool success = _userService.Login(loginDto.Username, loginDto.Password);
+            return success ? Ok("Login successful.") : Unauthorized("Login failed.");
+        }
     }
 }
