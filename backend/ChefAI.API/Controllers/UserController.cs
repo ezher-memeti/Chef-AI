@@ -29,7 +29,7 @@ namespace ChefAI.API.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] User loginDto)
+        public IActionResult Login([FromBody] LoginDto loginDto)
         {
             bool success = _userService.Login(loginDto.Username, loginDto.Password);
             return success ? Ok("Login successful.") : Unauthorized("Login failed.");

@@ -1,8 +1,7 @@
 {
-  "Id": 2,
+  "Id": 3,
   "Username": "admin",
-  "Email": "ezher.memeti@gmail.com",
-  "Password": "asd",
+  "Password": "123",
   "SecurityQuestion": "What was your childhood nickname?",
-  "SecurityAnswer": "as"
+  "SecurityAnswer": "12"
 }
