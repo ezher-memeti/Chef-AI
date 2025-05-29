@@ -17,37 +17,37 @@ const ChangePassword = () => {
     }, []);
 
     const handleChangePasswordSubmit = async (formData) => {
+        const username = localStorage.getItem('userName'); // assuming login stores this
+        const { password } = formData;
+
         const payload = {
-            ...formData,
-            userId,
-            username
+            username,
+            newPassword: password
         };
 
-        //test remove when backend included
-        console.log('Sending to backend:', payload);
-        setIsError(false);
-        setMessage('Password changed successfully!');
+        try {
+            const response = await fetch('http://localhost:5004/api/User/update-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            console.log(formData);
+            console.log(payload);
 
-        // try {
-        //     const response = await fetch('/api/change-password', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify(payload)
-        //     });
-
-        //     if (response.ok) {
-        //         setIsError(false);
-        //         setMessage('Password changed successfully!');
-        //     } else {
-        //         const error = await response.json();
-        //         setIsError(true);
-        //         setMessage(error.message || 'Failed to change password.');
-        //     }
-        // } catch (error) {
-        //     setIsError(true);
-        //     setMessage(error.message || 'An error occurred.');
-        // }
+            if (response.ok) {
+                setIsError(false);
+                setMessage('Password changed successfully!');
+            } else {
+                const errorText = await response.text();
+                setIsError(true);
+                setMessage(errorText || 'Failed to change password.');
+            }
+        } catch (error) {
+            setIsError(true);
+            setMessage(error.message || 'An error occurred.');
+        }
     };
+
 
     return (
         <div className="min-h-screen w-full flex flex-col items-center justify-center">
