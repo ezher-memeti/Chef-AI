@@ -3,36 +3,39 @@ import DropdownSelect from '../components/dropdownSelect';
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 
-const dietaryOptions = ["Vegetarian", "Vegan", "Gluten-free", "High-Protein", "Low-Carb", "Diabetic-Friendly", "Lactose-Free"];
 const predefinedAllergens = ["Dairy", "Nuts&Seeds", "Grains & Gluten", "Seafood & Shellfish", "Eggs", "Legumes & Pulses", "Additives & Preservatives"];
+const dietaryOptions = ["Vegetarian", "Vegan", "Gluten-free", "High-Protein", "Low-Carb", "Diabetic-Friendly", "Lactose-Free"];
 
 const Preferences = () => {
     const username = localStorage.getItem('userName');
     const [preferences, setPreferences] = useState({ allergens: [], dietary: [] });
     const [initialPreferences, setInitialPreferences] = useState({ allergens: [], dietary: [] });
     const [customAllergen, setCustomAllergen] = useState("");
-    const [allergenOptions, setAllergenOptions] = useState(predefinedAllergens);
+    const [allergenOptions, setAllergenOptions] = useState([...predefinedAllergens]);
     const [isSaving, setIsSaving] = useState(false);
     const [saveMessage, setSaveMessage] = useState('');
     const navigate = useNavigate();
+
     useEffect(() => {
         const fetchPreferences = async () => {
             if (!username) return;
             try {
                 const res = await fetch(`http://localhost:5004/api/User/${username}/preferences`);
                 const data = await res.json();
+
                 const userAllergens = data.allergens || [];
                 const userDietary = data.dietary || [];
 
-                // Detect and add custom allergens not in predefined list
+                // Detect custom allergens not in predefined list
                 const customAllergensFromUser = userAllergens.filter(a => !predefinedAllergens.includes(a));
-                setAllergenOptions(prev => [...new Set([...prev, ...customAllergensFromUser])]);
+                const mergedOptions = [...new Set([...predefinedAllergens, ...customAllergensFromUser])];
+
+                setAllergenOptions(mergedOptions);
 
                 setPreferences({
                     allergens: userAllergens,
                     dietary: userDietary,
                 });
-
                 setInitialPreferences({
                     allergens: userAllergens,
                     dietary: userDietary,
@@ -41,15 +44,16 @@ const Preferences = () => {
                 console.error('Failed to fetch preferences:', err);
             }
         };
+
         fetchPreferences();
     }, [username]);
 
-
     const addCustomAllergen = () => {
-        if (customAllergen && !allergenOptions.includes(customAllergen)) {
-            setAllergenOptions([...allergenOptions, customAllergen]);
+        if (customAllergen.trim() && !allergenOptions.includes(customAllergen)) {
+            const updatedOptions = [...allergenOptions, customAllergen];
+            setAllergenOptions(updatedOptions);
         }
-        if (customAllergen && !preferences.allergens.includes(customAllergen)) {
+        if (customAllergen.trim() && !preferences.allergens.includes(customAllergen)) {
             setPreferences(prev => ({
                 ...prev,
                 allergens: [...prev.allergens, customAllergen]

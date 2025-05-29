@@ -5,7 +5,11 @@
   "SecurityQuestion": "What was your childhood nickname?",
   "SecurityAnswer": "12",
   "Preferences": {
-    "Allergens": [],
-    "Dietary": []
+    "Allergens": [
+      "Nuts\u0026Seeds"
+    ],
+    "Dietary": [
+      "Vegetarian"
+    ]
   }
 }
