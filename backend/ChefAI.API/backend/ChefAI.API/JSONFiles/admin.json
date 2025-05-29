@@ -1,7 +1,15 @@
 {
   "Id": 3,
   "Username": "admin",
-  "Password": "1234",
+  "Password": "asd",
   "SecurityQuestion": "What was your childhood nickname?",
-  "SecurityAnswer": "12"
+  "SecurityAnswer": "12",
+  "Preferences": {
+    "Allergens": [
+      "Nuts\u0026Seeds"
+    ],
+    "Dietary": [
+      "Vegetarian"
+    ]
+  }
 }
