@@ -11,5 +11,8 @@ namespace ChefAI.API.Services.Interfaces
         bool ValidateSecurityAnswer(string username, string answer);
         void UpdatePassword(string username, string newPassword);
         User GetUser(string username); 
+        PreferencesDto GetPreferences(string username);
+        void UpdatePreferences(string username, PreferencesDto newPreferences);
+
     }
 }
