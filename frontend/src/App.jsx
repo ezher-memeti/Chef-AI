@@ -14,6 +14,7 @@ import Bookmarks from './pages/Bookmarks'
 import HowItWorks from './pages/HowItWorks';
 import FAQ from './pages/FAQ';
 import AboutUs from './pages/AboutUs';
+import PrivateRoute from './components/PrivateRoute';
 
 
 const App = () => {
@@ -27,7 +28,9 @@ const App = () => {
         } />
         <Route path="/searchRecipePage" element={
           <Layout>
-            <SearchRecipePage />
+            <PrivateRoute>
+              <SearchRecipePage />
+            </PrivateRoute>
           </Layout>
         } />
         <Route path="/register" element={
@@ -42,27 +45,30 @@ const App = () => {
         } />
         <Route path="/ResultPage" element={
           <Layout>
-            <Result />
-          </Layout>
-        } />
-        <Route path="/" element={
-          <Layout>
-            <SearchRecipePage />
+            <PrivateRoute>
+              <Result />
+            </PrivateRoute>
           </Layout>
         } />
         <Route path="/ChangePassword" element={
           <Layout>
-            <ChangePassword />
+            <PrivateRoute>
+              <ChangePassword />
+            </PrivateRoute>
           </Layout>
         } />
         <Route path="/preferences" element={
           <Layout>
-            <Preferences />
+            <PrivateRoute>
+              <Preferences />
+            </PrivateRoute>
           </Layout>
         } />
         <Route path="/bookmarks" element={
           <Layout>
-            <Bookmarks />
+            <PrivateRoute>
+              <Bookmarks />
+            </PrivateRoute>
           </Layout>
         } />
         <Route path="/howItWorks" element={
@@ -80,7 +86,7 @@ const App = () => {
             <AboutUs />
           </Layout>
         } />
-        {/* Add other routes as needed */}
+
       </Routes>
     </Router>
   );

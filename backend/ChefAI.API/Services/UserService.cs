@@ -101,6 +101,24 @@ public class UserService : IUserService
         );
     }
 
+    public PreferencesDto GetPreferences(string username)
+    {
+        var userDto = LoadUserDto(username);
+        return userDto?.Preferences ?? new PreferencesDto();
+    }
+
+    public void UpdatePreferences(string username, PreferencesDto newPreferences)
+    {
+        var userDto = LoadUserDto(username);
+        if (userDto == null)
+            throw new InvalidOperationException("User not found.");
+
+        userDto.Preferences = newPreferences;
+        SaveUserDto(userDto);
+    }
+
+
+
     private void SaveUserDto(UserDto userDto)
     {
         var path = GetUserFilePath(userDto.Username);
