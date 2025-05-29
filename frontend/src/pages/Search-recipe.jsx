@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DropdownSelect from "../components/dropdownSelect";
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
 
 const dietaryPreferences = ["Vegetarian", "Vegan", "Gluten-free", "High-Protein", "Low-Carb", "Diabetic-Friendly", "Lactose-Free"];
 const AlergicIngredients = ["Dairy", "Nuts&Seeds", "Grains & Gluten", "Seafood & Shellfish", "Eggs", "Legumes & Pulses", "Additives & Preservatives"];
@@ -12,11 +13,37 @@ const SearchRecipePage = () => {
     const [selectedFoodType, setSelectedFoodType] = useState("");
     const [selectedAlergicIngredients, setSelectedAlergicIngredients] = useState([]);
     const [selectedDietaryPreferences, setSelectedDietaryPreferences] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false); // to control dropdown rendering after fetch
     const [ingredientsInput, setIngredientsInput] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [errorPlace, setErrorPlace] = useState("");
 
     const navigate = useNavigate();
+
+    const username = localStorage.getItem('userName');
+
+    useEffect(() => {
+        const fetchPreferences = async () => {
+            try {
+                const res = await fetch(`http://localhost:5004/api/User/${username}/preferences`);
+                if (!res.ok) throw new Error("Failed to fetch");
+
+                const data = await res.json();
+
+                setSelectedAlergicIngredients(data.allergens || []);
+                setSelectedDietaryPreferences(data.dietary || []);
+                console.log(data);
+            } catch (err) {
+                console.error("Failed to fetch user preferences:", err);
+                console.log(err);
+            } finally {
+                setIsLoaded(true); // enable dropdowns after load
+            }
+        };
+
+        if (username) fetchPreferences();
+    }, [username]);
+
 
     const findInvalidIngredient = (input) => {
         const words = input.split(",").map(word => word.trim());
@@ -102,8 +129,26 @@ const SearchRecipePage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
                     <DropdownSelect label="Cuisine" options={Cuisines} selected={selectedCuisine} setSelected={setSelectedCuisine} errorPlace={errorPlace} />
                     <DropdownSelect label="Food type" options={FoodTypes} selected={selectedFoodType} setSelected={setSelectedFoodType} errorPlace={errorPlace} />
-                    <DropdownSelect label="Alergic ingredients" options={AlergicIngredients} multiSelect={true} selected={selectedAlergicIngredients} setSelected={setSelectedAlergicIngredients} />
-                    <DropdownSelect label="Dietary Preference" options={dietaryPreferences} multiSelect={true} selected={selectedDietaryPreferences} setSelected={setSelectedDietaryPreferences} />
+                    {isLoaded && (
+                        <DropdownSelect
+                            label="Alergic ingredients"
+                            options={AlergicIngredients}
+                            multiSelect={true}
+                            selected={selectedAlergicIngredients}
+                            setSelected={setSelectedAlergicIngredients}
+                        />
+                    )}
+
+                    {isLoaded && (
+                        <DropdownSelect
+                            label="Dietary Preference"
+                            options={dietaryPreferences}
+                            multiSelect={true}
+                            selected={selectedDietaryPreferences}
+                            setSelected={setSelectedDietaryPreferences}
+                        />
+                    )}
+
                 </div>
 
                 <div className="flex flex-col w-full">

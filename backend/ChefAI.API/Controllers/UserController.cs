@@ -66,5 +66,33 @@ namespace ChefAI.API.Controllers
             _userService.UpdatePassword(dto.Username, dto.NewPassword);
             return Ok("Password updated successfully.");
         }
+
+
+        [HttpGet("{username}/preferences")]
+        public IActionResult GetPreferences(string username)
+        {
+            var preferences = _userService.GetPreferences(username);
+            return Ok(preferences);
+        }
+
+        [HttpPost("{username}/preferences")]
+        public IActionResult UpdatePreferences(string username, [FromBody] PreferencesDto newPreferences)
+        {
+            try
+            {
+                _userService.UpdatePreferences(username, newPreferences);
+                return Ok("Preferences updated successfully.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
     }
 }
