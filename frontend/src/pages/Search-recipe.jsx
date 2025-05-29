@@ -15,23 +15,21 @@ const SearchRecipePage = () => {
     const [ingredientsInput, setIngredientsInput] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [errorPlace, setErrorPlace] = useState("");
+    const [isLoading, setIsLoading] = useState(false); // YENİ: loading durumu
 
     const navigate = useNavigate();
 
     const findInvalidIngredient = (input) => {
         const words = input.split(",").map(word => word.trim());
-
         for (const word of words) {
             if (!/^[a-zA-Z\s]+$/.test(word) || word.length < 2 || word.length > 30) {
-                return word; // return the invalid word
+                return word;
             }
         }
-
-        return null; // no problems
+        return null;
     };
 
     const handleSubmit = async () => {
-
         const trimmedInput = ingredientsInput.trim();
 
         if (!trimmedInput) {
@@ -52,14 +50,19 @@ const SearchRecipePage = () => {
             setErrorPlace("cuisine");
             return;
         }
+
         if (!selectedFoodType) {
             setErrorMessage("Please select a Food Type");
             setErrorPlace("foodType");
             return;
         }
+
         setErrorPlace("");
         setErrorMessage("");
-        let ingredientsList = ingredientsInput.split(",").map(ingredientsList => ingredientsList.trim());
+        setIsLoading(true); // YENİ: Yükleme başlat
+
+        let ingredientsList = ingredientsInput.split(",").map(item => item.trim());
+
         const requestData = {
             cuisine: selectedCuisine,
             foodType: selectedFoodType,
@@ -67,8 +70,6 @@ const SearchRecipePage = () => {
             dietaryPreferences: selectedDietaryPreferences,
             ingredients: ingredientsList
         };
-
-        console.log(requestData); // <- see what you will send
 
         try {
             const response = await fetch("/api/your-backend-endpoint", {
@@ -81,14 +82,14 @@ const SearchRecipePage = () => {
 
             const result = await response.json();
             console.log(result);
-            // You can handle success message, redirect, etc
+            navigate('/ResultPage', { state: { requestData } });
+
         } catch (error) {
             console.error("Error sending data:", error);
+        } finally {
+            setIsLoading(false); // YENİ: Yükleme bitir
         }
-
-        navigate('/ResultPage', { state: { requestData } });
     };
-
 
     return (
         <div className="flex-col justify-around items-center">
@@ -113,8 +114,7 @@ const SearchRecipePage = () => {
                         value={ingredientsInput}
                         onChange={(e) => setIngredientsInput(e.target.value)}
                         placeholder="e.g. tomatoes, garlic, pasta"
-                        className={`p-4 rounded-lg bg-my-button-color bg-opacity-20 placeholder-gray-500 text-gray-700 focus:outline-none ${(errorPlace === 'ingredients') ? "border border-red-500" : ""
-                            }`}
+                        className={`p-4 rounded-lg bg-my-button-color bg-opacity-20 placeholder-gray-500 text-gray-700 focus:outline-none ${(errorPlace === 'ingredients') ? "border border-red-500" : ""}`}
                     />
                     {errorMessage && (
                         <p className="mt-4 text-sm text-red-500">{errorMessage}</p>
@@ -122,11 +122,22 @@ const SearchRecipePage = () => {
                 </div>
 
                 <button
-                    className="w-full p-4 mt-2 bg-my-button-gradient rounded-lg font-semibold hover:opacity-80 hover:text-white transition"
-                    onClick={handleSubmit}
-                >
-                    Generate Recipe
-                </button>
+  className="w-full p-4 mt-2 bg-my-button-gradient rounded-lg font-semibold hover:opacity-80 hover:text-white transition"
+  onClick={handleSubmit}
+  disabled={isLoading}
+>
+  {isLoading ? "Generating..." : "Generate Recipe"}
+</button>
+
+                {isLoading && (
+                <div className="flex items-center gap-2 mt-4 text-gray-600 text-sm">
+                    <svg className="animate-spin h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    Generating recipe, please wait...
+                </div>
+            )}
             </div>
         </div>
     );
