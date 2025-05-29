@@ -104,7 +104,7 @@ const Navbar = () => {
                 <div className="relative" ref={dropdownRef}>
                     <button
                         onClick={() => {
-                            if (!userName) navigate('/login');
+                            if (!userName) navigate('/');
                             else setDropdownOpen(!dropdownOpen);
                         }}
                         className="relative focus:outline-none"
