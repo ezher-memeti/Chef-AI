@@ -39,3 +39,7 @@ server/*.sln.docstates
 *.env
 .env.*
 
+bin/
+obj/
+appsettings*.json
+.env
