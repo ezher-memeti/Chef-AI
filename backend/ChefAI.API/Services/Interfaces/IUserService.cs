@@ -13,6 +13,8 @@ namespace ChefAI.API.Services.Interfaces
         User GetUser(string username); 
         PreferencesDto GetPreferences(string username);
         void UpdatePreferences(string username, PreferencesDto newPreferences);
-
+        public List<Recipe> GetBookmarks(string username);
+        public void AddBookmark(string username, Recipe recipe);
+        public bool RemoveBookmark(string username, string recipeName);
     }
 }

@@ -34,8 +34,10 @@ const Result = () => {
                     ? recipe.instructions
                     : recipe.instructions?.split?.('\n') || []
             }));
-
+            
+            console.log("🔍 Raw aiResult:", aiResult);
             setRecipes(cleaned);
+            console.log("🔍 Raw cleansed:", cleaned);
             setSelectedRecipe(cleaned[0]);
         } else {
             throw new Error("No recipes received.");
