@@ -1,7 +1,8 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
+using System.Text.Json; // ✅ keep this for parsing OpenAI's response
+using Newtonsoft.Json;  // ✅ use this for serialization and deserialization
 using ChefAI.API.Models;
 using ChefAI.API.Services.Interfaces;
 
@@ -16,11 +17,11 @@ namespace ChefAI.API.Services
         public AIService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             _apiKey = configuration["ApiSettings:OpenAIApiKey"];
-            _apiEndpoint = "https://api.openai.com/v1/chat/completions"; // You can make this configurable too
+            _apiEndpoint = "https://api.openai.com/v1/chat/completions";
             _httpClient = httpClientFactory.CreateClient();
         }
 
-        public object SendRequest(string prompt)
+        public async Task<string> SendRequestAsync(string prompt)
         {
             var requestBody = new
             {
@@ -33,56 +34,70 @@ namespace ChefAI.API.Services
                 temperature = 0.7
             };
 
-            var json = JsonSerializer.Serialize(requestBody);
+            // ✅ Use Newtonsoft for serialization
+            var json = JsonConvert.SerializeObject(requestBody);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
 
-            var response = _httpClient.PostAsync(_apiEndpoint, content).Result;
+            var response = await _httpClient.PostAsync(_apiEndpoint, content);
             response.EnsureSuccessStatusCode();
 
-            var responseString = response.Content.ReadAsStringAsync().Result;
-            return JsonDocument.Parse(responseString);
+            var responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
         }
 
-        public List<Recipe> ParseResponse(object response)
+        public List<Recipe> ParseResponse(string json)
         {
-            var jsonDoc = response as JsonDocument;
-
-            var content = jsonDoc.RootElement
-                .GetProperty("choices")[0]
-                .GetProperty("message")
-                .GetProperty("content")
-                .GetString();
-
-            Console.WriteLine("AI Raw Content:");
-            Console.WriteLine(content);
-
-            // Fix: remove extra characters if AI returns markdown
-            content = content.Trim();
-            if (content.StartsWith("```json"))
-                content = content.Replace("```json", "").Replace("```", "").Trim();
-
             try
             {
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
+                using var doc = JsonDocument.Parse(json);
+                var content = doc.RootElement
+                    .GetProperty("choices")[0]
+                    .GetProperty("message")
+                    .GetProperty("content")
+                    .GetString();
 
-                var recipes = JsonSerializer.Deserialize<List<Recipe>>(content, options);
-                return recipes ?? new List<Recipe>();
+                Console.WriteLine("🔍 Raw content from OpenAI:");
+                Console.WriteLine(content);
+
+                content = content.Trim();
+                if (content.StartsWith("```json"))
+                    content = content.Replace("```json", "").Replace("```", "").Trim();
+
+                Console.WriteLine("🧪 Cleaned JSON:");
+                Console.WriteLine(content);
+
+                // ✅ Deserialize with Newtonsoft
+                var recipes = JsonConvert.DeserializeObject<List<Recipe>>(content);
+
+                if (recipes != null)
+                {
+                    foreach (var recipe in recipes)
+                    {
+                        Console.WriteLine($"✅ Recipe Parsed: {recipe.RecipeName}, {recipe.CuisineType}, {recipe.Calories} cal");
+                    }
+                }
+
+                if (recipes == null || recipes.Count == 0)
+                {
+                    Console.WriteLine("⚠️ Still got 0 recipes — investigate content shape.");
+                    return new List<Recipe>();
+                }
+
+                return recipes;
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Parsing error: {ex.Message}");
+                Console.WriteLine("❌ Newtonsoft failed to parse:");
+                Console.WriteLine(ex.Message);
                 return new List<Recipe>();
             }
         }
 
         public bool CheckAPIStatus()
         {
-            // Could ping a known endpoint or just return true for now
             return true;
         }
     }

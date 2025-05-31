@@ -98,7 +98,7 @@ const SearchRecipePage = () => {
         console.log(requestData); // <- see what you will send
 
         try {
-            const response = await fetch("/api/your-backend-endpoint", {
+            const response = await fetch("http://localhost:5004/api/AI/generate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

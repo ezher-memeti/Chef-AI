@@ -1,37 +1,3 @@
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.Development.json
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.json
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.staticwebassets.endpoints.json
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.deps.json
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.runtimeconfig.json
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.dll
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.pdb
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
-/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/Microsoft.OpenApi.dll
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.AssemblyReference.cache
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.GeneratedMSBuildEditorConfig.editorconfig
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.AssemblyInfoInputs.cache
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.AssemblyInfo.cs
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.CoreCompileInputs.cache
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.MvcApplicationPartsAssemblyInfo.cs
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.MvcApplicationPartsAssemblyInfo.cache
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.sourcelink.json
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/scopedcss/bundle/ChefAI.API.styles.css
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.build.json
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.development.json
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.build.endpoints.json
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.ChefAI.API.Microsoft.AspNetCore.StaticWebAssets.props
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.ChefAI.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.build.ChefAI.API.props
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.ChefAI.API.props
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.ChefAI.API.props
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.pack.json
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.Up2Date
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.dll
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/refint/ChefAI.API.dll
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.pdb
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.genruntimeconfig.cache
-/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ref/ChefAI.API.dll
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.Development.json
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.json
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.staticwebassets.endpoints.json
@@ -69,3 +35,41 @@
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/ezhermemeti.json
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/admin.json
 /Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/emir.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.Development.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/appsettings.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/admin.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/emir.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/backend/ChefAI.API/JSONFiles/ezhermemeti.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.staticwebassets.endpoints.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.deps.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.runtimeconfig.json
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.dll
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/ChefAI.API.pdb
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/Microsoft.OpenApi.dll
+/Users/emir/Chef-AI/backend/ChefAI.API/bin/Debug/net9.0/Newtonsoft.Json.dll
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.AssemblyReference.cache
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.GeneratedMSBuildEditorConfig.editorconfig
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.AssemblyInfoInputs.cache
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.AssemblyInfo.cs
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.CoreCompileInputs.cache
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.MvcApplicationPartsAssemblyInfo.cs
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.MvcApplicationPartsAssemblyInfo.cache
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.sourcelink.json
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/scopedcss/bundle/ChefAI.API.styles.css
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.build.json
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.development.json
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.build.endpoints.json
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.ChefAI.API.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.ChefAI.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.build.ChefAI.API.props
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.ChefAI.API.props
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.ChefAI.API.props
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/staticwebassets.pack.json
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.csproj.Up2Date
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.dll
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/refint/ChefAI.API.dll
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.pdb
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ChefAI.API.genruntimeconfig.cache
+/Users/emir/Chef-AI/backend/ChefAI.API/obj/Debug/net9.0/ref/ChefAI.API.dll

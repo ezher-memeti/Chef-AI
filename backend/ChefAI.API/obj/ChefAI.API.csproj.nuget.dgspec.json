@@ -1,25 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj": {}
+    "/Users/emir/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj": {}
   },
   "projects": {
-    "/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj": {
+    "/Users/emir/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj",
+        "projectUniqueName": "/Users/emir/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj",
         "projectName": "ChefAI.API",
-        "projectPath": "/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj",
-        "packagesPath": "/Users/ezhermemeti/.nuget/packages/",
-        "outputPath": "/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/obj/",
+        "projectPath": "/Users/emir/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj",
+        "packagesPath": "/Users/emir/.nuget/packages/",
+        "outputPath": "/Users/emir/Chef-AI/backend/ChefAI.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/ezhermemeti/.nuget/NuGet/NuGet.Config"
+          "/Users/emir/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +39,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -47,6 +48,10 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -68,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -32,14 +32,29 @@ namespace ChefAI.API.Services
             var prompt = search.GeneratePrompt();
 
             // Step 2: Call OpenAI (wrap sync method until AIService is async)
-            var aiResponse = await Task.Run(() => _aiService.SendRequest(prompt));
+            var aiResponse = await _aiService.SendRequestAsync(prompt);
 
             // Step 3: Parse AI response
             var recipes = _aiService.ParseResponse(aiResponse);
+            Console.WriteLine($"🧪 Before filtering: {recipes.Count} recipes");
 
             // Step 4: Apply filters
             recipes = search.FilterRecipesByAllergy(recipes);
             recipes = search.FilterRecipesByDietaryPreference(recipes);
+            Console.WriteLine($"🎯 After filtering: {recipes.Count} recipes");
+
+            if (recipes == null)
+            {
+                Console.WriteLine("❌ ParseResponse returned null");
+            }
+            else
+            {
+                Console.WriteLine($"✅ ParseResponse returned {recipes.Count} recipes");
+                foreach (var r in recipes)
+                {
+                    Console.WriteLine($" - {r.RecipeName}");
+                }
+            }
 
             return recipes;
         }

@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "sXMg6NWSJUg=",
+  "dgSpecHash": "o/8SzbFqe94=",
   "success": true,
-  "projectFilePath": "/Users/ezhermemeti/Desktop/3. sınıf dersler/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj",
+  "projectFilePath": "/Users/emir/Chef-AI/backend/ChefAI.API/ChefAI.API.csproj",
   "expectedPackageFiles": [
-    "/Users/ezhermemeti/.nuget/packages/microsoft.aspnetcore.openapi/9.0.0/microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
-    "/Users/ezhermemeti/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+    "/Users/emir/.nuget/packages/microsoft.aspnetcore.openapi/9.0.0/microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
+    "/Users/emir/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512",
+    "/Users/emir/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -4,8 +4,8 @@ namespace ChefAI.API.Services.Interfaces
 {
     public interface IAIService
     {
-        object SendRequest(string prompt);
-        List<Recipe> ParseResponse(object response);
+        Task<string> SendRequestAsync(string prompt);
+        List<Recipe> ParseResponse(string response);
         bool CheckAPIStatus();
     }
 }
