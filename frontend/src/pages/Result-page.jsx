@@ -1,4 +1,3 @@
-// Result.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
@@ -9,95 +8,49 @@ import { BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/24/outline
 import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid";
 import RecipeViewer from "../components/RecipeView";
 
-
-
 const Result = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    
+    const selectedSearchInfo = location.state?.requestData;
+    const aiResult = location.state?.result;  // AI'den gelen tarifler burada
+
     const [recipes, setRecipes] = useState([]);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-
-    const location = useLocation();
-    const selectedSearchInfo = location.state?.requestData;
-
     const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
 
-
-
     useEffect(() => {
-        const fetchRecipes = async () => {
-            try {
-                // Uncomment this when backend is ready
-                /*
-                const response = await fetch("/api/recipes/latest"); // adjust endpoint if needed
-                if (!response.ok) {
-                    throw new Error("Failed to fetch recipes");
-                }
-                const data = await response.json();
-                */
+    try {
+        if (Array.isArray(aiResult) && aiResult.length > 0) {
+            // Gelen tarifleri normalize et
+            const cleaned = aiResult.map(recipe => ({
+                ...recipe,
+                ingredients: Array.isArray(recipe.ingredients)
+                    ? recipe.ingredients
+                    : recipe.ingredients?.split?.('\n') || [],
+                instructions: Array.isArray(recipe.instructions)
+                    ? recipe.instructions
+                    : recipe.instructions?.split?.('\n') || []
+            }));
 
-                // Temporary test data
-                const data = [
-                    {
-                        title: "Spaghetti Bolognese",
-                        ingredients: [
-                            "200g spaghetti",
-                            "100g minced beef",
-                            "1 onion, chopped",
-                            "2 cloves garlic, minced",
-                            "400g canned tomatoes",
-                            "Salt and pepper",
-                            "Olive oil",
-                        ],
-                        instructions: [
-                            "Cook spaghetti according to package instructions.",
-                            "In a pan, heat olive oil and sauté onion and garlic until soft.",
-                            "Add minced beef and cook until browned.",
-                            "Add canned tomatoes, salt, and pepper. Simmer for 15 minutes.",
-                            "Serve sauce over spaghetti."
-                        ]
-                    },
-                    {
-                        title: "Chicken Caesar Salad",
-                        ingredients: [
-                            "2 chicken breasts",
-                            "1 romaine lettuce",
-                            "50g parmesan cheese",
-                            "Croutons",
-                            "Caesar dressing",
-                            "Salt and pepper",
-                        ],
-                        instructions: [
-                            "Grill chicken breasts and slice them.",
-                            "Wash and chop romaine lettuce.",
-                            "Mix lettuce, croutons, sliced chicken, and parmesan.",
-                            "Drizzle Caesar dressing over the salad and toss.",
-                        ]
-                    }
-                ];
-
-                if (Array.isArray(data) && data.length > 0) {
-                    setRecipes(data);
-                    setSelectedRecipe(data[0]); // Select the first recipe by default
-                } else {
-                    throw new Error("No recipes found");
-                }
-            } catch (err) {
-                console.error(err);
-                setError(err.message);
-                navigate("/"); // Redirect if something goes wrong
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchRecipes();
-    }, [navigate]);
+            setRecipes(cleaned);
+            setSelectedRecipe(cleaned[0]);
+        } else {
+            throw new Error("No recipes received.");
+        }
+    } catch (err) {
+        console.error(err);
+        setError(err.message);
+        navigate("/");
+    } finally {
+        setLoading(false);
+    }
+}, [aiResult, navigate]);
 
     const handleReturn = () => {
-        navigate("/"); // Go back to home/search page
+        navigate("/");
     };
 
     if (loading) {
