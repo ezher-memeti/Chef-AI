@@ -13,5 +13,7 @@ namespace ChefAI.API.Models
         public string SecurityAnswer { get; set; }
 
         public PreferencesDto Preferences { get; set; } = new PreferencesDto();
+
+        public List<Recipe> Bookmarks { get; set; } = new();
     }
 }

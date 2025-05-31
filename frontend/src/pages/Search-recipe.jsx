@@ -86,35 +86,32 @@ const SearchRecipePage = () => {
         }
         setErrorPlace("");
         setErrorMessage("");
-        let ingredientsList = ingredientsInput.split(",").map(ingredientsList => ingredientsList.trim());
-        const requestData = {
-            cuisine: selectedCuisine,
-            foodType: selectedFoodType,
-            alergicIngredients: selectedAlergicIngredients,
-            dietaryPreferences: selectedDietaryPreferences,
-            ingredients: ingredientsList
-        };
+        let ingredientsList = trimmedInput.split(",").map(i => i.trim());
 
-        console.log(requestData); // <- see what you will send
+  const requestData = {
+    cuisine: selectedCuisine,
+    foodType: selectedFoodType,
+    alergicIngredients: selectedAlergicIngredients,
+    dietaryPreferences: selectedDietaryPreferences,
+    ingredients: ingredientsList
+  };
 
-        try {
-            const response = await fetch("http://localhost:5004/api/AI/generate", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestData),
-            });
+  try {
+    const response = await fetch("http://localhost:5004/api/AI/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestData),
+    });
 
-            const result = await response.json();
-            console.log(result);
-            // You can handle success message, redirect, etc
-        } catch (error) {
-            console.error("Error sending data:", error);
-        }
+    const result = await response.json(); // ✅ Burada result tanımlanıyor
+    console.log("AI Response:", result);
 
-        navigate('/ResultPage', { state: { requestData } });
-    };
+    navigate('/ResultPage', { state: { requestData, result } }); // ✅ Artık kullanılabilir
+  } catch (error) {
+    console.error("Error sending data:", error);
+  }
+};
+    
 
 
     return (

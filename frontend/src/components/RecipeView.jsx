@@ -9,53 +9,78 @@ const RecipeViewer = ({ recipes, selectedSearchInfo, bookmarkedRecipes: initialB
     const navigate = useNavigate();
     const location = useLocation();
 
+    const username = localStorage.getItem("userName");
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [bookmarkedRecipes, setBookmarkedRecipes] = useState(initialBookmarks || []);
+    const [localRecipes, setLocalRecipes] = useState(recipes || []);
+
+    useEffect(() => {
+        setLocalRecipes(recipes || []);
+    }, [recipes]);
 
     const isBookmarked = (recipe) => {
-        return bookmarkedRecipes.some((r) => r.id === recipe.id);
+        return bookmarkedRecipes.some((r) => r.recipeName === recipe.recipeName);
     };
 
     const handleBookmark = async (recipe) => {
         const alreadyBookmarked = isBookmarked(recipe);
 
+        if (!username) {
+            alert("You must be logged in to bookmark recipes.");
+            return;
+        }
+
+        const normalizedRecipe = {
+            ...recipe,
+            instructions: Array.isArray(recipe.instructions)
+                ? recipe.instructions.join("\n")
+                : recipe.instructions,
+        };
+
         if (alreadyBookmarked) {
             const confirmed = window.confirm("Are you sure you want to remove this bookmark?");
             if (!confirmed) return;
 
-            // try {
-            //     const response = await fetch(`/api/bookmarks/${recipe.id}`, {
-            //         method: "DELETE",
-            //     });
+            try {
+                const response = await fetch(`http://localhost:5004/api/bookmark/${username}/${encodeURIComponent(recipe.recipeName)}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(normalizedRecipe),
+                });
 
-            // if (!response.ok) throw new Error("Failed to remove bookmark.");
+                if (!response.ok) throw new Error("Failed to remove bookmark.");
 
-            setBookmarkedRecipes((prev) =>
-                prev.filter((r) => r.id !== recipe.id)
-            );
-            // } catch (error) {
-            //     console.error("Unbookmark error:", error);
-            //     alert("Could not remove bookmark.");
-            // }
+                setBookmarkedRecipes((prev) =>
+                    prev.filter((r) => r.recipeName !== normalizedRecipe.recipeName)
+                );
+                setLocalRecipes((prev) =>
+                    prev.filter((r) => r.recipeName !== normalizedRecipe.recipeName)
+                );
+
+                if (selectedRecipe?.recipeName === recipe.recipeName) {
+                    setSelectedRecipe(null);
+                }
+            } catch (error) {
+                console.error("Unbookmark error:", error);
+                alert("Could not remove bookmark.");
+            }
         } else {
-            // try {
-            //     const response = await fetch("/api/bookmarks", {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify(recipe),
-            //     });
+            try {
+                const response = await fetch(`http://localhost:5004/api/bookmark/${username}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(normalizedRecipe),
+                });
 
-            //     if (!response.ok) throw new Error("Failed to add bookmark.");
+                if (!response.ok) throw new Error("Failed to add bookmark.");
 
-            setBookmarkedRecipes((prev) => [...prev, recipe]);
-            // } catch (error) {
-            //     console.error("Bookmark error:", error);
-            //     alert("Could not bookmark recipe.");
-            // }
+                setBookmarkedRecipes((prev) => [...prev, normalizedRecipe]);
+            } catch (error) {
+                console.error("Bookmark error:", error);
+                alert("Could not bookmark recipe.");
+            }
         }
     };
 
@@ -73,7 +98,7 @@ const RecipeViewer = ({ recipes, selectedSearchInfo, bookmarkedRecipes: initialB
 
                 {/* Left Side - Recipe List */}
                 <div className="w-1/3 flex flex-col gap-4 p-6 bg-white/20 backdrop-blur-md rounded-xl border overflow-y-auto h-full">
-                    {recipes.map((recipe, index) => (
+                    {localRecipes.map((recipe, index) => (
                         <button
                             key={index}
                             onClick={() => setSelectedRecipe(recipe)}
@@ -82,7 +107,7 @@ const RecipeViewer = ({ recipes, selectedSearchInfo, bookmarkedRecipes: initialB
                                 : "z-10 bg-my-button-color/30 text-black hover:bg-my-button-color/40 hover:text-white"
                                 }`}
                         >
-                            {recipe.title || `Food ${index + 1}`}
+                            {recipe.recipeName}
                         </button>
                     ))}
                 </div>
@@ -96,10 +121,7 @@ const RecipeViewer = ({ recipes, selectedSearchInfo, bookmarkedRecipes: initialB
                             <button
                                 onClick={() => {
                                     const message = encodeURIComponent(
-                                        `Check out this recipe: 
-${selectedRecipe.title} \n Ingredients: \n ${selectedRecipe.ingredients}
-Instructions:
-${selectedRecipe.instructions}`
+                                        `Check out this recipe: \n${selectedRecipe.recipeName}\nIngredients: \n${selectedRecipe.ingredients}\nInstructions:\n${selectedRecipe.instructions}`
                                     );
                                     const url = `https://wa.me/?text=${message}`;
                                     window.open(url, "_blank");
@@ -126,7 +148,7 @@ ${selectedRecipe.instructions}`
                         {selectedRecipe ? (
                             <div className="space-y-6">
                                 <h1 className="text-3xl font-bold text-center text-myTextPrimary">
-                                    {selectedRecipe.title}
+                                    {selectedRecipe.recipeName}
                                 </h1>
 
                                 <div>
@@ -145,9 +167,13 @@ ${selectedRecipe.instructions}`
                                         Instructions
                                     </h2>
                                     <ol className="list-decimal list-inside space-y-4 text-start text-myTextPrimary">
-                                        {selectedRecipe.instructions.map((step, idx) => (
-                                            <li key={idx}>{step}</li>
-                                        ))}
+                                        {typeof selectedRecipe.instructions === 'string'
+                                            ? selectedRecipe.instructions.split("\n").map((step, idx) => (
+                                                <li key={idx}>{step}</li>
+                                            ))
+                                            : selectedRecipe.instructions.map((step, idx) => (
+                                                <li key={idx}>{step}</li>
+                                            ))}
                                     </ol>
                                 </div>
                             </div>

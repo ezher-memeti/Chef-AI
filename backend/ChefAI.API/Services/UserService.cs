@@ -33,7 +33,7 @@ public class UserService : IUserService
     }
 
     public User CreateAccount(string username, string password, string question, string answer)
-{
+    {
     var existingUser = LoadUserDto(username);
     if (existingUser != null)
     {
@@ -56,7 +56,7 @@ public class UserService : IUserService
 
     SaveUserDto(userDto);
     return user;
-}
+    }
 
 
     public bool Login(string username, string password)
@@ -139,4 +139,39 @@ public class UserService : IUserService
     {
         return Path.Combine(_storagePath, $"{username}.json");
     }
+
+    public List<Recipe> GetBookmarks(string username)
+    {
+        var userDto = LoadUserDto(username);
+        return userDto?.Bookmarks ?? new List<Recipe>();
+    }
+
+    public void AddBookmark(string username, Recipe recipe)
+    {
+        var userDto = LoadUserDto(username);
+        if (userDto == null) throw new InvalidOperationException("User not found.");
+
+        userDto.Bookmarks ??= new List<Recipe>();
+
+        if (!userDto.Bookmarks.Any(r => r.RecipeName == recipe.RecipeName))
+        {
+            userDto.Bookmarks.Add(recipe);
+            SaveUserDto(userDto);
+        }
+    }
+
+    public bool RemoveBookmark(string username, string recipeName)
+    {
+        var userDto = LoadUserDto(username);
+        if (userDto == null || userDto.Bookmarks == null) return false;
+
+        var removed = userDto.Bookmarks.RemoveAll(r => r.RecipeName == recipeName) > 0;
+
+        if (removed)
+            SaveUserDto(userDto);
+
+        return removed;
+    }
+
+
 }

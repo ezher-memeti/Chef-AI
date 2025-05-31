@@ -3,5 +3,10 @@
   "Username": "emir",
   "Password": "emir123",
   "SecurityQuestion": "What was your childhood nickname?",
-  "SecurityAnswer": "1"
+  "SecurityAnswer": "1",
+  "Preferences": {
+    "Allergens": [],
+    "Dietary": []
+  },
+  "Bookmarks": []
 }
