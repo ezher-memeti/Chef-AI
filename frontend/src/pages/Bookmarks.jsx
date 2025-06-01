@@ -79,6 +79,7 @@ const Result = () => {
                 selectedRecipe={selectedRecipe}
                 setSelectedRecipe={setSelectedRecipe}
                 bookmarkedRecipes={bookmarkedRecipes}
+                isBookmarkPage={true}
             />
         </div>
     );
