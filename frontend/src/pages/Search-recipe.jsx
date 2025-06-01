@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DropdownSelect from "../components/dropdownSelect";
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from "react";
 
 const dietaryPreferences = ["Vegetarian", "Vegan", "Gluten-free", "High-Protein", "Low-Carb", "Diabetic-Friendly", "Lactose-Free"];
 const AlergicIngredients = ["Dairy", "Nuts&Seeds", "Grains & Gluten", "Seafood & Shellfish", "Eggs", "Legumes & Pulses", "Additives & Preservatives"];
@@ -13,13 +12,13 @@ const SearchRecipePage = () => {
     const [selectedFoodType, setSelectedFoodType] = useState("");
     const [selectedAlergicIngredients, setSelectedAlergicIngredients] = useState([]);
     const [selectedDietaryPreferences, setSelectedDietaryPreferences] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false); // to control dropdown rendering after fetch
+    const [isLoaded, setIsLoaded] = useState(false);
     const [ingredientsInput, setIngredientsInput] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [errorPlace, setErrorPlace] = useState("");
+    const [isLoading, setIsLoading] = useState(false); // 🔄 loading state
 
     const navigate = useNavigate();
-
     const username = localStorage.getItem('userName');
 
     useEffect(() => {
@@ -29,36 +28,29 @@ const SearchRecipePage = () => {
                 if (!res.ok) throw new Error("Failed to fetch");
 
                 const data = await res.json();
-
                 setSelectedAlergicIngredients(data.allergens || []);
                 setSelectedDietaryPreferences(data.dietary || []);
-                console.log(data);
             } catch (err) {
                 console.error("Failed to fetch user preferences:", err);
-                console.log(err);
             } finally {
-                setIsLoaded(true); // enable dropdowns after load
+                setIsLoaded(true);
             }
         };
 
         if (username) fetchPreferences();
     }, [username]);
 
-
     const findInvalidIngredient = (input) => {
         const words = input.split(",").map(word => word.trim());
-
         for (const word of words) {
             if (!/^[a-zA-Z\s]+$/.test(word) || word.length < 2 || word.length > 30) {
-                return word; // return the invalid word
+                return word;
             }
         }
-
-        return null; // no problems
+        return null;
     };
 
     const handleSubmit = async () => {
-
         const trimmedInput = ingredientsInput.trim();
 
         if (!trimmedInput) {
@@ -84,35 +76,38 @@ const SearchRecipePage = () => {
             setErrorPlace("foodType");
             return;
         }
-        setErrorPlace("");
+
         setErrorMessage("");
-        let ingredientsList = trimmedInput.split(",").map(i => i.trim());
+        setErrorPlace("");
 
-  const requestData = {
-    cuisine: selectedCuisine,
-    foodType: selectedFoodType,
-    alergicIngredients: selectedAlergicIngredients,
-    dietaryPreferences: selectedDietaryPreferences,
-    ingredients: ingredientsList
-  };
+        const ingredientsList = trimmedInput.split(",").map(i => i.trim());
+        const requestData = {
+            cuisine: selectedCuisine,
+            foodType: selectedFoodType,
+            alergicIngredients: selectedAlergicIngredients,
+            dietaryPreferences: selectedDietaryPreferences,
+            ingredients: ingredientsList
+        };
 
-  try {
-    const response = await fetch("http://localhost:5004/api/AI/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestData),
-    });
+        setIsLoading(true); // ✅ Spinner başlat
+        try {
+            const response = await fetch("http://localhost:5004/api/AI/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(requestData),
+            });
 
-    const result = await response.json(); // ✅ Burada result tanımlanıyor
-    console.log("AI Response:", result);
+            const result = await response.json();
+            console.log("AI Response:", result);
 
-    navigate('/ResultPage', { state: { requestData, result } }); // ✅ Artık kullanılabilir
-  } catch (error) {
-    console.error("Error sending data:", error);
-  }
-};
-    
-
+            navigate('/ResultPage', { state: { requestData, result } });
+        } catch (error) {
+            console.error("Error sending data:", error);
+            setErrorMessage("Something went wrong while generating the recipe.");
+        } finally {
+            setIsLoading(false); // ✅ Spinner durdur
+        }
+    };
 
     return (
         <div className="flex-col justify-around items-center">
@@ -135,7 +130,6 @@ const SearchRecipePage = () => {
                             setSelected={setSelectedAlergicIngredients}
                         />
                     )}
-
                     {isLoaded && (
                         <DropdownSelect
                             label="Dietary Preference"
@@ -145,7 +139,6 @@ const SearchRecipePage = () => {
                             setSelected={setSelectedDietaryPreferences}
                         />
                     )}
-
                 </div>
 
                 <div className="flex flex-col w-full">
@@ -155,8 +148,7 @@ const SearchRecipePage = () => {
                         value={ingredientsInput}
                         onChange={(e) => setIngredientsInput(e.target.value)}
                         placeholder="e.g. tomatoes, garlic, pasta"
-                        className={`p-4 rounded-lg bg-my-button-color bg-opacity-20 placeholder-gray-500 text-gray-700 focus:outline-none ${(errorPlace === 'ingredients') ? "border border-red-500" : ""
-                            }`}
+                        className={`p-4 rounded-lg bg-my-button-color bg-opacity-20 placeholder-gray-500 text-gray-700 focus:outline-none ${errorPlace === 'ingredients' ? "border border-red-500" : ""}`}
                     />
                     {errorMessage && (
                         <p className="mt-4 text-sm text-red-500">{errorMessage}</p>
@@ -164,14 +156,22 @@ const SearchRecipePage = () => {
                 </div>
 
                 <button
-                    className="w-full p-4 mt-2 bg-my-button-gradient rounded-lg font-semibold hover:opacity-80 hover:text-white transition"
+                    className="w-full p-4 mt-2 bg-my-button-gradient rounded-lg font-semibold hover:opacity-80 hover:text-white transition flex justify-center items-center"
                     onClick={handleSubmit}
+                    disabled={isLoading}
                 >
-                    Generate Recipe
+                    {isLoading ? (
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                    ) : (
+                        "Generate Recipe"
+                    )}
                 </button>
             </div>
         </div>
     );
-}
+};
 
 export default SearchRecipePage;

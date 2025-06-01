@@ -3,5 +3,34 @@
   "Username": "admin",
   "Password": "asd",
   "SecurityQuestion": "What was your childhood nickname?",
-  "SecurityAnswer": "12"
+  "SecurityAnswer": "12",
+  "Preferences": {
+    "Allergens": [
+      "Nuts\u0026Seeds"
+    ],
+    "Dietary": [
+      "Vegetarian"
+    ]
+  },
+  "Bookmarks": [
+    {
+      "RecipeName": "Tomato Basil Pasta",
+      "Ingredients": [
+        "Spaghetti",
+        "Olive Oil",
+        "Garlic",
+        "Tomatoes",
+        "Fresh Basil",
+        "Parmesan Cheese"
+      ],
+      "Instructions": "Cook spaghetti according to package instructions. In a large skillet, saut\u00E9 garlic in olive oil until fragrant. Add chopped tomatoes and cook until soft. Stir in cooked spaghetti and fresh basil. Top with grated Parmesan cheese before serving.",
+      "DietaryRestrictions": [
+        "Vegetarian"
+      ],
+      "CuisineType": "Italian",
+      "PrepTime": 10,
+      "CookTime": 20,
+      "Calories": 350
+    }
+  ]
 }

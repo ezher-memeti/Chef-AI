@@ -31,6 +31,26 @@
       "PrepTime": 10,
       "CookTime": 20,
       "Calories": 350
+    },
+    {
+      "RecipeName": "Italian Meat and Tomato Pasta",
+      "Ingredients": [
+        "200g pasta",
+        "200g ground meat",
+        "2 tomatoes",
+        "1 clove garlic",
+        "1 tbsp olive oil",
+        "salt",
+        "pepper"
+      ],
+      "Instructions": "Cook the pasta according to the package instructions. In a separate pan, cook the meat in olive oil. Add the garlic and tomatoes. Combine with the pasta and serve.",
+      "DietaryRestrictions": [
+        "High-Protein"
+      ],
+      "CuisineType": "Italian",
+      "PrepTime": 10,
+      "CookTime": 15,
+      "Calories": 600
     }
   ]
 }
