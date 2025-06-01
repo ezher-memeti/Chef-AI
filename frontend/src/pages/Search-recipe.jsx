@@ -156,7 +156,8 @@ const SearchRecipePage = () => {
                 </div>
 
                 <button
-                    className="w-full p-4 mt-2 bg-my-button-gradient rounded-lg font-semibold hover:opacity-80 hover:text-white transition flex justify-center items-center"
+                    className={`w-full p-4 mt-2 bg-my-button-gradient rounded-lg font-semibold transition flex justify-center items-center
+                   ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80 hover:text-white'}`}
                     onClick={handleSubmit}
                     disabled={isLoading}
                 >
