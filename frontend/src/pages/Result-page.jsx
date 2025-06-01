@@ -45,14 +45,14 @@ const Result = () => {
     } catch (err) {
         console.error(err);
         setError(err.message);
-        navigate("/");
+        navigate("/SearchRecipePage");
     } finally {
         setLoading(false);
     }
 }, [aiResult, navigate]);
 
     const handleReturn = () => {
-        navigate("/");
+        navigate("/SearchRecipePage");
     };
 
     if (loading) {
