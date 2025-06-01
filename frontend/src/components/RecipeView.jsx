@@ -5,7 +5,7 @@ import { ChevronLeftIcon, ShareIcon } from "@heroicons/react/20/solid";
 import { BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/24/outline";
 import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid";
 
-const RecipeViewer = ({ recipes, selectedSearchInfo, bookmarkedRecipes: initialBookmarks }) => {
+const RecipeViewer = ({ recipes, selectedSearchInfo, bookmarkedRecipes: initialBookmarks, isBookmarkPage = false }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -55,12 +55,15 @@ const RecipeViewer = ({ recipes, selectedSearchInfo, bookmarkedRecipes: initialB
                 setBookmarkedRecipes((prev) =>
                     prev.filter((r) => r.recipeName !== normalizedRecipe.recipeName)
                 );
-                setLocalRecipes((prev) =>
-                    prev.filter((r) => r.recipeName !== normalizedRecipe.recipeName)
-                );
+                // ✅ Only modify the view if you're on the bookmark page
+                if (isBookmarkPage) {
+                    setLocalRecipes((prev) =>
+                        prev.filter((r) => r.recipeName !== normalizedRecipe.recipeName)
+                    );
 
-                if (selectedRecipe?.recipeName === recipe.recipeName) {
-                    setSelectedRecipe(null);
+                    if (selectedRecipe?.recipeName === recipe.recipeName) {
+                        setSelectedRecipe(null);
+                    }
                 }
             } catch (error) {
                 console.error("Unbookmark error:", error);
