@@ -54,14 +54,28 @@ namespace ChefAI.API.Models
 
         public List<Recipe> FilterRecipesByAllergy(List<Recipe> recipes)
         {
-            return recipes.Where(recipe => !recipe.Ingredients.Any(i => UserAllergies.Contains(i, StringComparer.OrdinalIgnoreCase))).ToList();
+            if (UserAllergies == null || !UserAllergies.Any()) return recipes;
+
+            return recipes.Where(recipe =>
+                !recipe.Ingredients.Any(ingredient =>
+                    UserAllergies.Any(allergen =>
+                        ingredient.IndexOf(allergen, StringComparison.OrdinalIgnoreCase) >= 0
+                    )
+                )).ToList();
         }
 
         public List<Recipe> FilterRecipesByDietaryPreference(List<Recipe> recipes)
         {
-            return recipes
-                .Where(recipe => UserDietaryPreferences.Any(pref => recipe.MatchDietaryPreferences(pref)))
-                .ToList();
+            if (UserDietaryPreferences == null || !UserDietaryPreferences.Any()) return recipes;
+
+            return recipes.Where(recipe =>
+                recipe.DietaryRestrictions.Any(dr =>
+                    UserDietaryPreferences.Any(pref =>
+                        string.Equals(pref, dr, StringComparison.OrdinalIgnoreCase)
+                    )
+                )
+            ).ToList();
         }
+
     }
 }

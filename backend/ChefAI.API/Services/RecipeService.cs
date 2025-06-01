@@ -28,18 +28,35 @@ namespace ChefAI.API.Services
                 UserDietaryPreferences = dietaryPreferences
             };
 
-            // Step 1: Generate AI prompt
-            var prompt = search.GeneratePrompt();
+        // Step 1: Generate AI prompt
+        var prompt = search.GeneratePrompt();
 
-            // Step 2: Call OpenAI (wrap sync method until AIService is async)
-            var aiResponse = await Task.Run(() => _aiService.SendRequest(prompt));
+        // Step 2: Call OpenAI (wrap sync method until AIService is async)
+        var aiResponse = await Task.Run(() => _aiService.SendRequest(prompt));
 
-            // Step 3: Parse AI response
-            var recipes = _aiService.ParseResponse(aiResponse);
+        // Step 3: Parse AI response
+        var recipes = _aiService.ParseResponse(aiResponse);
 
-            // Step 4: Apply filters
-            recipes = search.FilterRecipesByAllergy(recipes);
-            recipes = search.FilterRecipesByDietaryPreference(recipes);
+        // Debug log the raw recipe count before filtering
+        Console.WriteLine($"🔍 Recipes returned before filtering: {recipes.Count}");
+
+        // Step 4: Apply allergy and dietary filters
+        recipes = search.FilterRecipesByAllergy(recipes);
+        Console.WriteLine($"🧪 After allergy filter: {recipes.Count}");
+
+        recipes = search.FilterRecipesByDietaryPreference(recipes);
+        Console.WriteLine($"✅ After dietary filter: {recipes.Count}");
+
+        // Optionally handle no results
+        if (recipes.Count == 0)
+        {
+            Console.WriteLine("⚠️ No recipes left after filtering.");
+            return new List<Recipe>(); // or return a meaningful error
+        }
+
+// Continue processing...
+return recipes;
+
 
             return recipes;
         }
